@@ -1,0 +1,9 @@
+.Container-Table,
+.Container-Iphone,
+.Container-Counter
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}

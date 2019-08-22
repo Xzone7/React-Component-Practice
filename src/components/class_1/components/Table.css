@@ -1,0 +1,18 @@
+.myTable {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  }
+  
+  .myTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .myTable tr:hover {
+    background-color: #ddd;
+  }
+  
+  .myTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }

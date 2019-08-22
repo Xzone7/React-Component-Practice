@@ -1,0 +1,36 @@
+.problem-list-display {
+    margin: 0 auto;
+}
+
+.problem-list-err-msg {
+    color: red;
+}
+
+.problem-list-table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    width: 700px;
+    text-align: center;
+}
+
+.problem-list-table thead {
+    border-bottom: 1px solid #ddd;
+}
+
+.problem-list-table td {
+    padding: 8px;
+    width: 100px;
+  }
+
+  .problem-list-table tr {
+    cursor: pointer;
+  }
+  
+  .problem-list-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  .problem-list-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }

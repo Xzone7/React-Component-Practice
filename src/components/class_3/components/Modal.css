@@ -1,0 +1,63 @@
+.modal-main {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 50px;
+}
+
+.modal-display button {
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    margin: 10px;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: rgb(78, 66, 236);
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+
+.modal {
+    background-color: #fff;
+    border-radius: 5px;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    z-index: 1;
+}
+
+.modal h2 {
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+    margin: 0;
+    text-align: left;
+}
+
+.content {
+    padding: 1rem;
+    margin: 0;
+    height: 50px;
+    text-align: left;
+}
+
+.actions {
+    border-top:  1px solid #ccc;
+}
+
+.actions button {
+    border-radius: 5px;
+    float: right;
+    margin-right: 10px;
+    margin-top: 7px;
+    padding: 10px;
+}
+

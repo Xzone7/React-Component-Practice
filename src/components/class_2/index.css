@@ -1,0 +1,8 @@
+.Container-Timer,
+.Container-LoginForm
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}

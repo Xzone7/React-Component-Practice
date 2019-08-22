@@ -1,0 +1,36 @@
+import React from 'react';
+import { connect } from 'react-redux';
+// import RedirectToLogin from '../RedirectToLogin/RedirectToLogin.js';
+import mapStateToProps from '../../redux/config/mapStateToProps.js';
+import LoginNavBar from '../LoginNavBar/LoginNavBar.js';
+import LogoutNavBar from '../LogoutNavBar/LogoutNavBar.js';
+
+import './index.css';
+
+const Home = (props) => {
+    const authentication = props.authentication;
+    return (
+        <div className="HomePage">
+            <nav className="home-page-nav">
+                {authentication ? <div className="welcome-msg"><div>Welcome Guest</div></div> : <LoginNavBar />}
+                {authentication && <LogoutNavBar />}
+            </nav>
+            <h1>Welcome to Xu Chen's React Practice Home Page</h1>
+            {authentication ?
+                <div>
+                    <h2>click the button below to access class practice</h2>
+                    <div className="Button-class">
+                        <button onClick={() => props.history.push('/class-1')}>class_1(HW 1, 2)</button>
+                        <button onClick={() => props.history.push('/class-2')}>class_2(HW 3, 5)</button>
+                        <button onClick={() => props.history.push('/class-3')}>class_3(HW 4, 7)</button>
+                        <button onClick={() => props.history.push('/class-4')}>class_4(HW route)</button>
+                    </div>
+                </div>
+                :
+                <h2 className="login-alert">please sign in to access Xhub</h2>
+            }
+        </div>
+    );
+}
+
+export default connect(mapStateToProps)(Home);

@@ -1,0 +1,120 @@
+.Iphone,
+.Iphone-dispaly
+{
+    border: 0.5vh solid #787f8a;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.Iphone {
+    padding: 10vh 1.5vh;
+    border-radius: 6vh;
+}
+
+.Iphone-statusBar {
+    background-color: #5e98f5;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5vh;
+    height: 0.1vh;
+    width: 36vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.Iphone-screen {
+    background-color: #3f74ca;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5vh;
+    width: 36vh;
+}
+
+.Iphone-docker {
+    background-color: #5e98f5;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1.5vh;
+    width: 36vh;
+}
+
+.Iphone-dispaly > button {
+    border: none;
+    padding: 0;
+    outline: none;
+    background-color: transparent;
+    user-select: none;
+}
+
+.icon {
+    width: 6vh;
+    height: 6vh;
+    border-radius: 1.5vh;
+    background-color: #f7f8fa;
+    margin: 1.5vh;
+}
+
+.icon:active {
+    opacity: 0.75;
+}
+
+.home,
+.camera,
+.proximity,
+.speaker
+{
+    position: absolute;
+}
+
+.home,
+.camera,
+.proximity {
+    border-radius: 50%;
+}
+
+.speaker,
+.proximity {
+    background-color: #525c6b;
+}
+
+.home,
+.speaker,
+.camera,
+.proximity {
+    left: 50%;
+}
+
+.home,
+.speaker {
+    margin-left: -3vh;
+    width: 6vh;
+}
+
+.home,
+.camera {
+    border: 0.5vh solid #525c6b;
+}
+
+.home {
+    height: 6vh;
+    bottom: 2vh;
+}
+
+.speaker {
+    top: 4.75vh;
+    height: 0.5vh;
+    border-radius: 0.5vh;
+}
+
+.camera {
+    width: 1.5vh;
+    height: 1.5vh;
+    top: 4.25vh;
+    margin-left: -6.5vh;
+}
+
+.proximity {
+    width: 1vh;
+    height: 1vh;
+    top: 2vh;
+    margin-left: -0.5vh;
+}
