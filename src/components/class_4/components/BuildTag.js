@@ -14,6 +14,13 @@ class BuildTag extends Component {
         this.setState({ userInput: e.target.value });
     }
 
+    handleTagClose = id => {
+        const newList = this.state.tagList.filter((ele, index) => index !== id);
+        this.setState({
+            tagList: newList
+        });
+    }
+
     handleSubmit = e => {
         e.preventDefault();
         this.setState({
@@ -26,20 +33,31 @@ class BuildTag extends Component {
         const tagList = this.state.tagList;
         const userInput = this.state.userInput;
         return (
-            <div>
+            <div className="tag-container-wrapper">
                 {tagList.length > 0 &&
-                    <ul>
-                        {tagList.map((ele, index) => {
-                            return <li key={index}>{ele}</li>;
-                        })}
-                    </ul>
+                    <div>
+                        <ul className="tag-list">
+                            {tagList.map((ele, index) => {
+                                return (
+                                    <li className="tag" key={index}>
+                                        {ele}
+                                        <span className="tag-close" onClick={() => this.handleTagClose(index)}>
+                                            x
+                                    </span>
+                                    </li>);
+                            })}
+                        </ul>
+                    </div>
                 }
-                <form onSubmit={this.handleSubmit}>
-                    <input type="text"
-                        placeholder="Add a tag..."
-                        value={userInput}
-                        onChange={this.handleInputChange} />
-                </form>
+                <div>
+                    <form className="tag-form" onSubmit={this.handleSubmit}>
+                        <input className="tag-input"
+                        type="text"
+                            placeholder="Add a tag..."
+                            value={userInput}
+                            onChange={this.handleInputChange} />
+                    </form>
+                </div>
             </div>
         );
     }
