@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import mapStateToProps from '../../redux/config/mapStateToProps.js';
 import LoginNavBar from '../LoginNavBar/LoginNavBar.js';
 import LogoutNavBar from '../LogoutNavBar/LogoutNavBar.js';
+import MaterialUINavBar from '../Material-UI-NavBar';
 
 import './index.css';
 
@@ -11,6 +12,7 @@ const Home = (props) => {
     const authentication = props.authentication;
     return (
         <div className="HomePage">
+            <MaterialUINavBar />
             <nav className="home-page-nav">
                 {authentication ? <div className="welcome-msg"><div>Welcome Guest</div></div> : <LoginNavBar />}
                 {authentication && <LogoutNavBar />}
