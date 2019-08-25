@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import RedirectToLogin from '../RedirectToLogin/RedirectToLogin.js';
 import mapStateToProps from '../../redux/config/mapStateToProps.js';
-import LoginNavBar from '../LoginNavBar/LoginNavBar.js';
-import LogoutNavBar from '../LogoutNavBar/LogoutNavBar.js';
 import MaterialUINavBar from '../Material-UI-NavBar';
 import './index.css';
 
