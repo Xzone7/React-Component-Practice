@@ -1,8 +1,6 @@
 import { loadState, saveState } from "../initState/configureState.js";
 
 const loginReducer = (state = loadState(), action) => {
-    console.log("Action recived: ");
-    console.log(action);
     switch (action.type) {
         case 'ACCEPTED':
             // serilize local storage

@@ -1,25 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import './TableApi.css';
+import { connect } from 'react-redux';
+import * as actions from '../../../redux/actions/listActionCreator';
 
 class TableApi extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: [],
-            isLoad: true,
-        };
-    }
 
     componentDidMount() {
-        axios({ method: 'get', url: 'https://api.github.com/users?per_page=100' })
-            .then(response => {
-                this.setState({ data: response.data, isLoad: false });
-            })
-            .catch(err => {
-                console.error(err);
-            })
+        this.props.fetchData();
     }
 
     handleShowDetails = (loginName) => {
@@ -29,25 +17,30 @@ class TableApi extends Component {
     }
 
     render() {
-        console.log(this.state);
-        console.log(this.props);
+        const data = this.props.data;
+        const isLoad = this.props.isLoad;
+        const err = this.props.err;
         return (
             <div className="table-display">
                 <div>
                     <h2>List</h2>
-                    {this.state.isLoad ? <h3>Loading...</h3> :
-                        <table className="table-data">
-                            <tbody>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>username</th>
-                                    <th>image</th>
-                                </tr>
-                                {this.state.data.map((ele, index) => {
-                                    return <TableRow name={ele} detail={this.handleShowDetails} key={ele.id} />;
-                                })}
-                            </tbody>
-                        </table>}
+                    {err ?
+                        <h1>Please Refresh the page</h1>
+                        :
+                        isLoad ? <h3>Loading...</h3> :
+                            <table className="table-data">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>username</th>
+                                        <th>image</th>
+                                    </tr>
+                                    {data.map((ele, index) => {
+                                        return <TableRow name={ele} detail={this.handleShowDetails} key={ele.id} />;
+                                    })}
+                                </tbody>
+                            </table>
+                    }
                 </div>
             </div>
         );
@@ -66,4 +59,18 @@ function TableRow(props) {
     );
 }
 
-export default withRouter(TableApi);
+const mapStateToProps = state => {
+    return {
+        data: state.list.data,
+        isLoad: state.list.isLoad,
+        err: state.list.err
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchData: () => { dispatch(actions.getData()) }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TableApi));

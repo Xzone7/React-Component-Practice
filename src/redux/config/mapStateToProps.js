@@ -1,6 +1,6 @@
 const mapStateToProps = state => {
     return {
-        authentication: state.authentication
+        authentication: state.login.authentication
     };
 };
 
