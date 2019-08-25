@@ -5,7 +5,6 @@ import mapStateToProps from '../../redux/config/mapStateToProps.js';
 import LoginNavBar from '../LoginNavBar/LoginNavBar.js';
 import LogoutNavBar from '../LogoutNavBar/LogoutNavBar.js';
 import MaterialUINavBar from '../Material-UI-NavBar';
-
 import './index.css';
 
 const Home = (props) => {
@@ -13,11 +12,11 @@ const Home = (props) => {
     return (
         <div className="HomePage">
             <MaterialUINavBar />
-            <nav className="home-page-nav">
+            {/* <nav className="home-page-nav">
                 {authentication ? <div className="welcome-msg"><div>Welcome Guest</div></div> : <LoginNavBar />}
                 {authentication && <LogoutNavBar />}
-            </nav>
-            <h1>Welcome to Xu Chen's React Practice Home Page</h1>
+            </nav> */}
+            <h1>Xu Chen's React Practice Home Page</h1>
             {authentication ?
                 <div>
                     <h2>click the button below to access class practice</h2>
@@ -31,14 +30,16 @@ const Home = (props) => {
                 :
                 <h2 className="login-alert">please sign in to access Xhub</h2>
             }
-            <iframe title="MangZhong"
-                width="560"
-                height="315"
-                src="https://www.youtube.com/embed/L1mInSrFCm0"
-                frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen>
-            </iframe>
+            {authentication &&
+                <iframe title="MangZhong"
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/L1mInSrFCm0"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen>
+                </iframe>
+            }
         </div>
     );
 }
