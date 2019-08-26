@@ -22,6 +22,7 @@ const Home = (props) => {
                         <button onClick={() => props.history.push('/class-2')}>class_2(HW 3, 5)</button>
                         <button onClick={() => props.history.push('/class-3')}>class_3(HW 4, 7)</button>
                         <button onClick={() => props.history.push('/class-4')}>class_4(HW route)</button>
+                        <button onClick={() => props.history.push('/class-5')}>class_5(HW 8, 10)</button>
                     </div>
                 </div>
                 :

@@ -9,7 +9,7 @@ import './index.css';
 
 const Class_4 = props => {
     return (props.authentication ?
-        <div className="Class_4">
+        <div className="Class-4-page">
             <BackButton />
             <div className="Container-problemList">
                 <ProblemList />
