@@ -18,7 +18,8 @@ class EmailClient extends Component {
             trashData: [],
             detailData: [],
             isUnread: 0,
-            swtichFlag: [true, false, false, false]
+            swtichFlag: [true, false, false, false],
+            snapFoucsFlag: []
         };
     }
 
@@ -39,6 +40,8 @@ class EmailClient extends Component {
     }
 
     handleShowDetail = (dataID, id) => {
+        const newSnapFoucsFlag = [];
+        newSnapFoucsFlag[id] = true;
         switch (dataID) {
             case 0:
                 /* For further use, even though it's not nessessary now */
@@ -56,13 +59,15 @@ class EmailClient extends Component {
                     ...this.state,
                     inboxData: updatedInboxData,
                     detailData: updatedInboxData.filter((ele, index) => index === id),
-                    isUnread: updatedInboxData.filter((e, index) => e.read === "false").length
+                    isUnread: updatedInboxData.filter((e, index) => e.read === "false").length,
+                    snapFoucsFlag: newSnapFoucsFlag
                 });
                 break;
             case 3:
                 this.setState({
                     ...this.state,
-                    detailData: this.state.trashData.filter((e, index) => index === id)
+                    detailData: this.state.trashData.filter((e, index) => index === id),
+                    snapFoucsFlag: newSnapFoucsFlag
                 })
                 break;
             default:
@@ -73,8 +78,29 @@ class EmailClient extends Component {
 
     handleParseDetailTime = time => {
         const arr = new Date(time).toString().split(" ");
-        console.log(arr);
         return `${arr[1]} ${arr[2]}, ${arr[3]} • ${arr[4]}`;
+    }
+
+    handleDelete = ele => {
+        console.log(ele);
+        const updatedInboxData = this.state.inboxData.filter((element, index) => {
+            // since test email data has no id in it, we have to compare every props
+            return (ele.from !== element.from || 
+                    ele.address !== element.address ||
+                    ele.time !== element.time ||
+                    ele.message !== element.message ||
+                    ele.subject !== element.subject ||
+                    ele.tag !== element.tag ||
+                    ele.read !== element.read)
+        });
+
+        this.setState({
+            ...this.state,
+            inboxData: updatedInboxData,
+            trashData: [...this.state.trashData, ele],
+            detailData: [],
+            snapFoucsFlag: []
+        });
     }
 
     handleClickNav = id => {
@@ -87,7 +113,8 @@ class EmailClient extends Component {
         this.setState({
             ...this.state,
             detailData: [],
-            swtichFlag: updatedSwtichFlag
+            swtichFlag: updatedSwtichFlag,
+            snapFoucsFlag: []
         });
     }
 
@@ -100,6 +127,7 @@ class EmailClient extends Component {
         const isUnread = this.state.isUnread;
         const trashCount = this.state.trashData.length;
         const swtichFlag = this.state.swtichFlag;
+        const snapFoucsFlag = this.state.snapFoucsFlag;
         return (
             <div className="email-client-container">
                 <nav className="nav-bar-container">
@@ -137,10 +165,14 @@ class EmailClient extends Component {
                 </nav>
 
                 <div className="snap-bar-container">
-                    {swtichFlag[0] && (inboxData.length === 0 ? <EmptyPage /> : <SnapContent targetData={[inboxData, 0]} showDetail={this.handleShowDetail} />)}
-                    {swtichFlag[1] && (sentData.length === 0 ? <EmptyPage /> : <SnapContent targetData={[sentData, 1]} showDetail={this.handleShowDetail} />)}
-                    {swtichFlag[2] && (draftData.length === 0 ? <EmptyPage /> : <SnapContent targetData={[draftData, 2]} showDetail={this.handleShowDetail} />)}
-                    {swtichFlag[3] && (trashData.length === 0 ? <EmptyPage /> : <SnapContent targetData={[trashData, 3]} showDetail={this.handleShowDetail} />)}
+                    {swtichFlag[0] && (inboxData.length === 0 ?
+                        <EmptyPage /> : <SnapContent targetData={[inboxData, 0]} showDetail={this.handleShowDetail} colorFlag={snapFoucsFlag} />)}
+                    {swtichFlag[1] && (sentData.length === 0 ?
+                        <EmptyPage /> : <SnapContent targetData={[sentData, 1]} showDetail={this.handleShowDetail} colorFlag={snapFoucsFlag} />)}
+                    {swtichFlag[2] && (draftData.length === 0 ?
+                        <EmptyPage /> : <SnapContent targetData={[draftData, 2]} showDetail={this.handleShowDetail} colorFlag={snapFoucsFlag} />)}
+                    {swtichFlag[3] && (trashData.length === 0 ?
+                        <EmptyPage /> : <SnapContent targetData={[trashData, 3]} showDetail={this.handleShowDetail} colorFlag={snapFoucsFlag} />)}
                 </div>
 
                 <div className="detail-bar-container">
@@ -150,7 +182,10 @@ class EmailClient extends Component {
                                 <div className="detail-box-header-container">
                                     <div className="detail-box-header">
                                         <h2 className="detail-box-subject">{ele.subject}</h2>
-                                        {ele.tag === "inbox" && <div className="detail-box-icon-container"><span className="detail-box-icon"><Trash /></span></div>}
+                                        {ele.tag === "inbox" &&
+                                            <div className="detail-box-icon-container">
+                                                <span className="detail-box-icon" onClick={() => this.handleDelete(ele)}><Trash /></span>
+                                            </div>}
                                     </div>
                                     <div className="detail-box-footer">
                                         <div className="detail-box-from">{ele.from}</div>
@@ -169,20 +204,21 @@ class EmailClient extends Component {
     }
 }
 
-const SnapContent = ({ targetData, showDetail }) => {
+const SnapContent = ({ targetData, showDetail, colorFlag }) => {
     return (
         targetData[0].map((ele, index) => {
             return (
                 <div key={index}
                     className={index !== targetData[0].length - 1 ? "snap-box" : "snap-box-tail"}
-                    onClick={() => showDetail(targetData[1], index)}>
+                    onClick={() => showDetail(targetData[1], index)}
+                    id={colorFlag[index] && "snap-box-id"}>
                     <div className="snap-bar-box-header">
                         <div className="snap-bar-box-subject">{ele.subject}</div>
                         {ele.read === "false" && <div className="snap-bar-box-readFlag"><span className="snap-bar-box-dot"></span></div>}
                     </div>
                     <div className="snap-bar-box-footer">
-                        <div className="snap-bar-box-from">{ele.from}</div>
-                        <div className="snap-bar-box-time">{handleParseTime(ele.time)}</div>
+                        <div className="snap-bar-box-from" id={colorFlag[index] && "snap-box-id"}>{ele.from}</div>
+                        <div className="snap-bar-box-time" id={colorFlag[index] && "snap-box-id"}>{handleParseTime(ele.time)}</div>
                     </div>
                 </div>
             );
