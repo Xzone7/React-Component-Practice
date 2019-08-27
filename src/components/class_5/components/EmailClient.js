@@ -190,14 +190,6 @@ const SnapContent = ({ targetData, showDetail }) => {
     );
 }
 
-const Detail = () => {
-    return (
-        <div className="detail-box-container">
-
-        </div>
-    );
-}
-
 const EmptyPage = () => {
     return (
         <div className="snap-empty-msg">Nothing to see here, great job!</div>
