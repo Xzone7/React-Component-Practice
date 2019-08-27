@@ -93,6 +93,9 @@ class EmailClient extends Component {
                     ele.tag !== element.tag ||
                     ele.read !== element.read)
         });
+        
+        // keep the consistence of the data
+        ele.tag = "deleted";
 
         this.setState({
             ...this.state,
