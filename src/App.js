@@ -5,7 +5,8 @@ import Class_1 from './components/class_1';
 import Class_2 from './components/class_2';
 import Class_3 from './components/class_3';
 import Class_4 from './components/class_4';
-import class_5 from './components/class_5';
+import Class_5 from './components/class_5';
+import Project_1 from './components/Project-1';
 import DetailList from './components/class_3/components/DetailList.js';
 import ProblemDetail from './components/class_4/components/ProblemDetail.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -25,7 +26,8 @@ const App = () => {
           <Route path="/class-3" component={Class_3} />
           <Route path="/class-4/:id" component={ProblemDetail} />
           <Route path="/class-4" component={Class_4} />
-          <Route path="/class-5" component={class_5} />
+          <Route path="/class-5" component={Class_5} />
+          <Route path="/project-1" component={Project_1} />
         </Switch>
       </div>
     </BrowserRouter>

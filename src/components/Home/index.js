@@ -24,6 +24,9 @@ const Home = (props) => {
                         <button onClick={() => props.history.push('/class-4')}>class_4(HW route)</button>
                         <button onClick={() => props.history.push('/class-5')}>class_5(HW 8, 10)</button>
                     </div>
+                    <div className="Button-class">
+                        <button onClick={() => props.history.push('/project-1')}>project_1(UserList)</button>
+                    </div>
                 </div>
                 :
                 <h2 className="login-alert">please sign in to access Xhub</h2>
