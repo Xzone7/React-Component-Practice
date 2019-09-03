@@ -26,6 +26,14 @@ export const setError = error => {
     );
 };
 
+export const unSetError = () => {
+    return (
+        {
+            type: "USER_CANCLE_ERROR"
+        }
+    );
+}
+
 export const getData = () => {
     console.log("Start to fetch data...Loading flag dispatched");
     return (dispatch, getState) => {
@@ -36,6 +44,26 @@ export const getData = () => {
             })
             .catch(err => {
                 dispatch(setError(err));
+                // send request after 5s to retry
+                setTimeout(() => dispatch(getData()), 5000);
             })
     };
+}
+
+/* Asyn problem notice:
+        This function call http to server to delete data in db,
+        then carry the new data back.
+*/
+export const deleteData = id => {
+    console.log("Start to delete data...");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.delete(`http://localhost:1024/api/users/${id}`)
+            .then(res => {
+                dispatch(getData());
+            })
+            .catch(err => {
+                dispatch(setError(err));
+            })
+    }
 }

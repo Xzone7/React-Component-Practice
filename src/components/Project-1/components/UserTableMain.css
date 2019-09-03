@@ -1,0 +1,66 @@
+.project-1-mainpage-container {
+    position: relative;
+}
+
+.project-1-header {
+    height: 100px;
+}
+
+.project-1-title {
+    margin-left: 50px;
+}
+
+.project-1-search-bar {
+    margin-left: 50px;
+    width: 15%;
+}
+
+.project-1-table-container {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.project-1-table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.project-1-table-header {
+    display: table-header-group;
+    border-bottom: 2px solid rgb(189, 189, 189);
+}
+
+.project-1-table-body td, .project-1-table-header td {
+    padding: 10px;
+}
+
+.project-1-table-body tr {
+    border-top: 1px solid #ddd;
+}
+  
+.project-1-table-body tr:hover {
+    background-color: #ddd;
+}
+  
+.project-1-table-body tr:nth-child(odd) {
+    background-color: #f0f0f0;
+}
+
+.project-1-table-header td {
+    font-weight: bold;
+}
+
+.project-1-table-header-firstname,
+.project-1-table-header-lastname,
+.project-1-table-header-sex,
+.project-1-table-header-age 
+{
+    color: rgb(42, 178, 231);
+}
+
+.project-1-error-page {
+    margin-left: 50px;
+    margin-right: 50px;
+}

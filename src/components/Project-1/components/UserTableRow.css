@@ -1,0 +1,9 @@
+.project-1-editButton, .project-1-deleteButton {
+    display: flex;
+    align-items: center;
+}
+
+.project-1-editButton span, .project-1-deleteButton span {
+    margin-right: 3px;
+    margin-top: 1px;
+}

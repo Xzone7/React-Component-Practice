@@ -24,6 +24,11 @@ const userTableReducer = (state = initState, action) => {
                 isLoad: false,
                 err: action.error
             };
+        case "USER_CANCLE_ERROR": 
+            return {
+                ...state,
+                err: null
+            }
         default:
             return state;
     }

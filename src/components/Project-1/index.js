@@ -15,7 +15,7 @@ class Project_1 extends Component {
         const authentication = this.props.authentication;
         return (
             authentication ?
-                <div className="project-1-mainpage-container">
+                <div className="project-1-container">
                     <div className="project-1-app-bar-container">
                         <MaterialUINavBar />
                     </div>
