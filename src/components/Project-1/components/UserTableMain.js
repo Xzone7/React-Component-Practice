@@ -19,7 +19,7 @@ class UserTableMain extends Component {
             searchInput: "",
             searchData: [],
             page: 0,
-            pagePerRow: 5
+            rowsPerPage: 5
         }
     }
 
@@ -62,8 +62,26 @@ class UserTableMain extends Component {
         this.props.history.push("/project-1/create");
     }
 
-    handleOnChangePage = (event, newPage) => {
+    handlePageForward = () => {
+        this.setState({
+            ...this.state,
+            page: this.state.page + 1,
+        });
+    }
 
+    handlePageBackward = () => {
+        this.setState({
+            ...this.state,
+            page: this.state.page - 1,
+        });
+    }
+
+    handleChangeRowsPerPage = e => {
+        this.setState({
+            ...this.state,
+            page: 0,
+            rowsPerPage: e.target.value
+        });
     }
 
     render() {
@@ -72,6 +90,8 @@ class UserTableMain extends Component {
         const err = this.props.err;
         const searchInput = this.state.searchInput;
         const searchData = this.state.searchData;
+        const page = this.state.page;
+        const rowsPerPage = this.state.rowsPerPage;
         err ? console.error(err) : console.log("NO ERROR");
         return (
             <div className="project-1-mainpage-container">
@@ -102,7 +122,7 @@ class UserTableMain extends Component {
                             </tr>
                         </thead>
                         <tbody className="project-1-table-body">
-                            <UserTableRow data={searchInput.length > 0 ? searchData : data}
+                            <UserTableRow data={searchInput.length > 0 ? searchData : data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
                                 handleClickEdit={this.handleClickEdit}
                                 handleClickDelete={this.handleClickDelete} />
                         </tbody>
@@ -112,18 +132,19 @@ class UserTableMain extends Component {
                     <TablePagination
                         rowsPerPageOptions={[5, 7, 10]}
                         page={this.state.page}
-                        rowsPerPage={7}
+                        rowsPerPage={rowsPerPage}
                         count={data.length}
                         backIconButtonProps={{
                             'aria-label': 'previous page',
-                            'onClick': this.handleTest,
+                            'onClick': this.handlePageBackward,
                         }}
                         nextIconButtonProps={{
                             'aria-label': 'next page',
-                            'onClick': this.handleOnChangePage,
+                            'onClick': this.handlePageForward,
                         }}
                         component="div"
-                        onChangePage={() => {}} />
+                        onChangePage={() => {}}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage} />
                 </div>
                 <div className="project-1-newUser-container">
                     <Fab variant="extended"
