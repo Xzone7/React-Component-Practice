@@ -275,19 +275,19 @@ class UserTableMain extends Component {
                                 <th className="project-1-table-header-firstname">
                                     First Name
                                 <TableSortLable
-                                        active={sortActiveFlag[0]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(0)} /></th>
+                                        active={searchInput.length === 0 && sortActiveFlag[0]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(0)} /></th>
                                 <th className="project-1-table-header-lastname">
                                     Last Name
                                     <TableSortLable
-                                        active={sortActiveFlag[1]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(1)} /></th>
+                                        active={searchInput.length === 0 && sortActiveFlag[1]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(1)} /></th>
                                 <th className="project-1-table-header-sex">
                                     Sex
                                     <TableSortLable
-                                        active={sortActiveFlag[2]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(2)} /></th>
+                                        active={searchInput.length === 0 && sortActiveFlag[2]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(2)} /></th>
                                 <th className="project-1-table-header-age">
                                     Age
                                     <TableSortLable
-                                        active={sortActiveFlag[3]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(3)} /></th>
+                                        active={searchInput.length === 0 && sortActiveFlag[3]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(3)} /></th>
                             </tr>
                         </thead>
                         <tbody className="project-1-table-body">
