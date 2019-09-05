@@ -5,7 +5,11 @@ import UserTableRow from './UserTableRow';
 import LoadingPage from './LoadingPage';
 import ErrorPage from './ErrorPage';
 import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import HowToReg from '@material-ui/icons/HowToReg';
+import TablePagination from '@material-ui/core/TablePagination';
 import "./UserTableMain.css";
+import { withRouter } from 'react-router-dom';
 
 
 class UserTableMain extends Component {
@@ -13,7 +17,9 @@ class UserTableMain extends Component {
         super(props);
         this.state = {
             searchInput: "",
-            searchData: []
+            searchData: [],
+            page: 0,
+            pagePerRow: 5
         }
     }
 
@@ -23,6 +29,11 @@ class UserTableMain extends Component {
 
     handleClickDelete = id => {
         this.props.deleteData(id);
+    }
+
+    handleClickEdit = id => {
+        /* Funtion: 1. update the whole data set 2. redirect to edit page */
+        this.props.updateData(id, this.props.history.push);
     }
 
     handleSearchChange = e => {
@@ -47,6 +58,14 @@ class UserTableMain extends Component {
         this.props.unSetError();
     }
 
+    handleClickNewUser = () => {
+        this.props.history.push("/project-1/create");
+    }
+
+    handleOnChangePage = (event, newPage) => {
+
+    }
+
     render() {
         const data = this.props.data;
         const isLoad = this.props.isLoad;
@@ -65,7 +84,7 @@ class UserTableMain extends Component {
                         <TextField
                             value={searchInput}
                             onChange={this.handleSearchChange}
-                            placeholder="Search" 
+                            placeholder="Search"
                             fullWidth />
                     </div>
                 </div>
@@ -83,10 +102,38 @@ class UserTableMain extends Component {
                             </tr>
                         </thead>
                         <tbody className="project-1-table-body">
-                            <UserTableRow data={searchInput.length > 0 ? searchData : data} 
-                                          handleClickDelete={this.handleClickDelete} />
+                            <UserTableRow data={searchInput.length > 0 ? searchData : data}
+                                handleClickEdit={this.handleClickEdit}
+                                handleClickDelete={this.handleClickDelete} />
                         </tbody>
                     </table>
+                </div>
+                <div className="project-1-pagination-container">
+                    <TablePagination
+                        rowsPerPageOptions={[5, 7, 10]}
+                        page={this.state.page}
+                        rowsPerPage={7}
+                        count={data.length}
+                        backIconButtonProps={{
+                            'aria-label': 'previous page',
+                            'onClick': this.handleTest,
+                        }}
+                        nextIconButtonProps={{
+                            'aria-label': 'next page',
+                            'onClick': this.handleOnChangePage,
+                        }}
+                        component="div"
+                        onChangePage={() => {}} />
+                </div>
+                <div className="project-1-newUser-container">
+                    <Fab variant="extended"
+                        id="project-1-newUser-button"
+                        onClick={this.handleClickNewUser}>
+                        <span>
+                            <HowToReg />
+                        </span>
+                        Create New User
+                    </Fab>
                 </div>
             </div>
         );
@@ -105,8 +152,9 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchData: () => dispatch(actions.getData()),
         deleteData: (id) => dispatch(actions.deleteData(id)),
-        unSetError: () => dispatch(actions.unSetError())
+        unSetError: () => dispatch(actions.unSetError()),
+        updateData: (id, redirectToEdit) => dispatch(actions.updateData(id, redirectToEdit)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserTableMain);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(UserTableMain));

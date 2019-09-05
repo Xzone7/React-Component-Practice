@@ -1,0 +1,47 @@
+.project-1-newuser-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.project-1-newuser-wrapper {
+    margin-top: 200px;
+    width: 400px;
+}
+
+.project-1-newuser-title {
+    font-weight: 500;
+    color: #1976d2;
+}
+
+.project-1-newuser-wrapper div {
+    margin: 20px;
+}
+
+.project-1-newuser-fillarea div {
+    display: flex;
+}
+
+.project-1-newuser-fillarea label {
+    width: 50%;
+    text-align: right;
+    font-weight: 700;
+}
+
+.project-1-newuser-fillarea input {
+    margin-left: 20px;
+}
+
+.project-1-newuser-button-container {
+    border-top: 1px solid rgb(214, 214, 214);
+    width: 100%;
+}
+
+.project-1-newuser-button-container button {
+    margin-top: 20px;
+}
+
+#project-1-save-newuser-button {
+    background: #1976d2;
+    color: #fff;
+}

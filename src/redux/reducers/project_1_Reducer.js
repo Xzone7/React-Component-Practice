@@ -1,7 +1,7 @@
 const initState = {
     data: [],
     isLoad: false,
-    err: null
+    err: null,
 };
 
 const userTableReducer = (state = initState, action) => {

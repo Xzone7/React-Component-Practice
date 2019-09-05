@@ -4,13 +4,13 @@ import Button from '@material-ui/core/Button';
 import Create from '@material-ui/icons/Create';
 import Delete from '@material-ui/icons/DeleteRounded';
 
-const UserTableRow = ({ data, handleClickDelete }) => {
+const UserTableRow = ({ data, handleClickEdit,handleClickDelete }) => {
     return (
         data.map((ele, index) => {
             return (
                 <tr key={index}>
                     <td>
-                        <Button variant="outlined" color="primary" size="small">
+                        <Button variant="outlined" color="primary" size="small" onClick={() => handleClickEdit(ele._id)}>
                             <div  className="project-1-editButton">
                                 <span>
                                     <Create fontSize="small" />
