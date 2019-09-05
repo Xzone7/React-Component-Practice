@@ -19,6 +19,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import TableSortLable from '@material-ui/core/TableSortLabel';
 import MySnackbarContentWrapper from './MySnackbarContentWrapper';
+import DeleteDialog from './DeleteDialog';
 
 
 class UserTableMain extends Component {
@@ -32,7 +33,8 @@ class UserTableMain extends Component {
             operationFlag: false,
             operationMsg: "",
             orderBy: false,
-            sortActiveFlag: [false, false, false, false]
+            sortActiveFlag: [false, false, false, false],
+            openDeleteModal: [false, null]
         }
     }
 
@@ -72,6 +74,12 @@ class UserTableMain extends Component {
     }
 
     handleClickDelete = id => {
+        this.setState({
+            openDeleteModal: [!this.state.openDeleteModal[0], id]
+        });
+    }
+
+    handleClickDeleteConfirm = id => {
         this.props.deleteData(id,
             {
                 setSuccessModal: this.handleOpsOpen,
@@ -80,7 +88,8 @@ class UserTableMain extends Component {
         );
         this.setState({
             ...this.state,
-            sortActiveFlag: [false, false, false, false]
+            sortActiveFlag: [false, false, false, false],
+            openDeleteModal: [false, null]
         });
     }
 
@@ -239,6 +248,7 @@ class UserTableMain extends Component {
         const rowsPerPage = this.state.rowsPerPage;
         const sortActiveFlag = this.state.sortActiveFlag
         const orderBy = this.state.orderBy;
+        const openDeleteModal = this.state.openDeleteModal;
         err ? console.error(err) : console.log("NO ERROR");
         return (
             <div className="project-1-mainpage-container">
@@ -354,6 +364,7 @@ class UserTableMain extends Component {
                         variant="success"
                         message={this.state.operationMsg} />
                 </Snackbar>
+                {openDeleteModal[0] && <DeleteDialog openFlag={this.state.openDeleteModal} cancle={this.handleClickDelete} confirm={this.handleClickDeleteConfirm} />}
             </div>
         );
     }
