@@ -128,34 +128,38 @@ class UserTableMain extends Component {
                         </tbody>
                     </table>
                 </div>
-                <div className="project-1-pagination-container">
-                    <TablePagination
-                        rowsPerPageOptions={[5, 7, 10]}
-                        page={this.state.page}
-                        rowsPerPage={rowsPerPage}
-                        count={data.length}
-                        backIconButtonProps={{
-                            'aria-label': 'previous page',
-                            'onClick': this.handlePageBackward,
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'next page',
-                            'onClick': this.handlePageForward,
-                        }}
-                        component="div"
-                        onChangePage={() => {}}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage} />
-                </div>
-                <div className="project-1-newUser-container">
-                    <Fab variant="extended"
-                        id="project-1-newUser-button"
-                        onClick={this.handleClickNewUser}>
-                        <span>
-                            <HowToReg />
-                        </span>
-                        Create New User
+                {!isLoad &&
+                    <div className="project-1-pagination-container">
+                        <TablePagination
+                            rowsPerPageOptions={[5, 7, 10]}
+                            page={this.state.page}
+                            rowsPerPage={rowsPerPage}
+                            count={data.length}
+                            backIconButtonProps={{
+                                'aria-label': 'previous page',
+                                'onClick': this.handlePageBackward,
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'next page',
+                                'onClick': this.handlePageForward,
+                            }}
+                            component="div"
+                            onChangePage={() => { }}
+                            onChangeRowsPerPage={this.handleChangeRowsPerPage} />
+                    </div>
+                }
+                {!isLoad &&
+                    <div className="project-1-newUser-container">
+                        <Fab variant="extended"
+                            id="project-1-newUser-button"
+                            onClick={this.handleClickNewUser}>
+                            <span>
+                                <HowToReg />
+                            </span>
+                            Create New User
                     </Fab>
-                </div>
+                    </div>
+                }
             </div>
         );
     }
