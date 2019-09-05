@@ -6,10 +6,16 @@ import LoadingPage from './LoadingPage';
 import ErrorPage from './ErrorPage';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
 import HowToReg from '@material-ui/icons/HowToReg';
 import TablePagination from '@material-ui/core/TablePagination';
 import "./UserTableMain.css";
 import { withRouter } from 'react-router-dom';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 
 class UserTableMain extends Component {
@@ -76,12 +82,36 @@ class UserTableMain extends Component {
         });
     }
 
+    handlePageFirst = () => {
+        this.setState({
+            ...this.state,
+            page: 0
+        });
+    }
+
+    handlePageLast = () => {
+        this.setState({
+            ...this.state,
+            page: Math.ceil(this.props.data.length / this.state.rowsPerPage) - 1
+        });
+    }
+
     handleChangeRowsPerPage = e => {
         this.setState({
             ...this.state,
             page: 0,
             rowsPerPage: e.target.value
         });
+    }
+
+    useStyles = () => {
+        return makeStyles(theme => ({
+            root: {
+                flexShrink: 0,
+                color: theme.palette.text.secondary,
+                marginLeft: theme.spacing(2.5),
+            },
+        }))
     }
 
     render() {
@@ -121,32 +151,55 @@ class UserTableMain extends Component {
                                 <th className="project-1-table-header-age">Age</th>
                             </tr>
                         </thead>
-                            <tbody className="project-1-table-body">
-                                <UserTableRow data={searchInput.length > 0 ? searchData : data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
-                                    handleClickEdit={this.handleClickEdit}
-                                    handleClickDelete={this.handleClickDelete} />
-                            </tbody>
+                        <tbody className="project-1-table-body">
+                            <UserTableRow data={searchInput.length > 0 ? searchData : data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
+                                handleClickEdit={this.handleClickEdit}
+                                handleClickDelete={this.handleClickDelete} />
+                        </tbody>
                     </table>
                 </div>
-                    <div className="project-1-pagination-container">
-                        <TablePagination
-                            rowsPerPageOptions={[5, 7, 10]}
-                            page={this.state.page}
-                            rowsPerPage={rowsPerPage}
-                            count={data.length}
-                            backIconButtonProps={{
-                                'aria-label': 'previous page',
-                                'onClick': this.handlePageBackward,
-                            }}
-                            nextIconButtonProps={{
-                                'aria-label': 'next page',
-                                'onClick': this.handlePageForward,
-                            }}
-                            component="div"
-                            onChangePage={() => { }}
-                            onChangeRowsPerPage={this.handleChangeRowsPerPage} />
-                    </div>
-                {!isLoad &&
+                <div className="project-1-pagination-container">
+                    <TablePagination
+                        rowsPerPageOptions={[5, 7, 10]}
+                        page={this.state.page}
+                        rowsPerPage={rowsPerPage}
+                        count={data.length}
+                        component="div"
+                        onChangePage={() => { }}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
+                        ActionsComponent={() => {
+                            return (
+                                <div className={this.useStyles()().root}>
+                                    <IconButton
+                                        onClick={this.handlePageFirst}
+                                        disabled={page === 0 || searchInput.length > 0}
+                                        aria-label="first page"
+                                    >
+                                        {useTheme().direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+                                    </IconButton>
+                                    <IconButton onClick={this.handlePageBackward} disabled={page === 0 || searchInput.length > 0} aria-label="previous page">
+                                        {useTheme().direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={this.handlePageForward}
+                                        disabled={page >= Math.ceil(data.length / rowsPerPage) - 1 || searchInput.length > 0}
+                                        aria-label="next page"
+                                    >
+                                        {useTheme().direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={this.handlePageLast}
+                                        disabled={page >= Math.ceil(data.length / rowsPerPage) - 1 || searchInput.length > 0}
+                                        aria-label="last page"
+                                    >
+                                        {useTheme().direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+                                    </IconButton>
+                                </div>
+                            );
+                        }} />
+                </div>
+                {
+                    !isLoad &&
                     <div className="project-1-newUser-container">
                         <Fab variant="extended"
                             id="project-1-newUser-button"

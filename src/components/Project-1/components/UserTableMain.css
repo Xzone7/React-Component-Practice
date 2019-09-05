@@ -20,6 +20,7 @@
     margin-left: 50px;
     margin-right: 50px;
     height: 500px;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
 }
 
 .project-1-table {
@@ -47,15 +48,15 @@
 }
 
 .project-1-table-body tr {
-    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
   
 .project-1-table-body tr:hover {
     background-color: #ddd;
 }
   
-.project-1-table-body tr:nth-child(odd) {
-    background-color: #f0f0f0;
+.project-1-table-body tr:nth-child(even) {
+    background-color: #f5f5f5;
 }
 
 .project-1-table-header th {
@@ -93,6 +94,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 
