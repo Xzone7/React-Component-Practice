@@ -157,7 +157,7 @@ class UserTableMain extends Component {
     handleOpsOpen = (message) => {
         this.setState({
             ...this.state,
-            test: true,
+            operationFlag: true,
             operationMsg: message
         });
     }
@@ -165,7 +165,7 @@ class UserTableMain extends Component {
     handleOpsClose = () => {
         this.setState({
             ...this.state,
-            test: false
+            operationFlag: false
         });
     }
 
@@ -271,7 +271,7 @@ class UserTableMain extends Component {
                         vertical: 'bottom',
                         horizontal: 'left',
                     }}
-                    open={this.state.test}
+                    open={this.state.operationFlag}
                     autoHideDuration={3000}
                     onClose={this.handleOpsClose}
                 >
