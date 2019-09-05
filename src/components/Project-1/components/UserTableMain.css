@@ -19,7 +19,7 @@
 .project-1-table-container {
     margin-left: 50px;
     margin-right: 50px;
-    height: 650px;
+    height: 500px;
 }
 
 .project-1-table {
@@ -29,13 +29,21 @@
     table-layout: fixed;
 }
 
-.project-1-table-header {
-    display: table-header-group;
-    border-bottom: 2px solid rgb(189, 189, 189);
+.project-1-table-body {
+    display: block;
+    overflow: overlay;
+    height: 461px;
 }
 
-.project-1-table-body td, .project-1-table-header td {
+.project-1-table-header {
+    display: block;
+    border-bottom: 1px solid rgb(189, 189, 189);
+}
+
+.project-1-table-body td, .project-1-table-header th {
+    text-align: left;
     padding: 10px;
+    width: 304px;
 }
 
 .project-1-table-body tr {
@@ -50,7 +58,7 @@
     background-color: #f0f0f0;
 }
 
-.project-1-table-header td {
+.project-1-table-header th {
     font-weight: bold;
 }
 

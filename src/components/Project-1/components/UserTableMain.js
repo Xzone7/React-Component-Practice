@@ -113,22 +113,21 @@ class UserTableMain extends Component {
                     <table className="project-1-table">
                         <thead className="project-1-table-header">
                             <tr>
-                                <td className="project-1-table-header-edit">Edit</td>
-                                <td className="project-1-table-header-delete">Delete</td>
-                                <td className="project-1-table-header-firstname">First Name</td>
-                                <td className="project-1-table-header-lastname">Last Name</td>
-                                <td className="project-1-table-header-sex">Sex</td>
-                                <td className="project-1-table-header-age">Age</td>
+                                <th className="project-1-table-header-edit">Edit</th>
+                                <th className="project-1-table-header-delete">Delete</th>
+                                <th className="project-1-table-header-firstname">First Name</th>
+                                <th className="project-1-table-header-lastname">Last Name</th>
+                                <th className="project-1-table-header-sex">Sex</th>
+                                <th className="project-1-table-header-age">Age</th>
                             </tr>
                         </thead>
-                        <tbody className="project-1-table-body">
-                            <UserTableRow data={searchInput.length > 0 ? searchData : data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
-                                handleClickEdit={this.handleClickEdit}
-                                handleClickDelete={this.handleClickDelete} />
-                        </tbody>
+                            <tbody className="project-1-table-body">
+                                <UserTableRow data={searchInput.length > 0 ? searchData : data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
+                                    handleClickEdit={this.handleClickEdit}
+                                    handleClickDelete={this.handleClickDelete} />
+                            </tbody>
                     </table>
                 </div>
-                {!isLoad &&
                     <div className="project-1-pagination-container">
                         <TablePagination
                             rowsPerPageOptions={[5, 7, 10]}
@@ -147,7 +146,6 @@ class UserTableMain extends Component {
                             onChangePage={() => { }}
                             onChangeRowsPerPage={this.handleChangeRowsPerPage} />
                     </div>
-                }
                 {!isLoad &&
                     <div className="project-1-newUser-container">
                         <Fab variant="extended"

@@ -7,10 +7,6 @@ import UserTableMain from './components/UserTableMain';
 import "./index.css";
 
 class Project_1 extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const authentication = this.props.authentication;
         return (
