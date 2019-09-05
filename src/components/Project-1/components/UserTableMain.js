@@ -17,6 +17,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
+import TableSortLable from '@material-ui/core/TableSortLabel';
 import MySnackbarContentWrapper from './MySnackbarContentWrapper';
 
 
@@ -27,9 +28,11 @@ class UserTableMain extends Component {
             searchInput: "",
             searchData: [],
             page: 0,
-            rowsPerPage: 5,
+            rowsPerPage: 7,
             operationFlag: false,
-            operationMsg: ""
+            operationMsg: "",
+            orderBy: false,
+            sortActiveFlag: [false, false, false, false]
         }
     }
 
@@ -75,6 +78,10 @@ class UserTableMain extends Component {
                 message: ""
             }
         );
+        this.setState({
+            ...this.state,
+            sortActiveFlag: [false, false, false, false]
+        });
     }
 
     handleClickEdit = id => {
@@ -169,6 +176,59 @@ class UserTableMain extends Component {
         });
     }
 
+    handleSortActive = id => {
+        if (!this.state.sortActiveFlag[id]) {
+            this.setState({
+                ...this.state,
+                sortActiveFlag: this.state.sortActiveFlag.map((ele, index) => {
+                    return index === id ? true : false
+                })
+            });
+        } else {
+            if (this.state.orderBy) {
+                this.props.sortData(this.getSortedDataAsc(id));
+            } else {
+                this.props.sortData(this.getSortedDataDesc(id));
+            }
+            this.setState({
+                ...this.state,
+                orderBy: !this.state.orderBy
+            });
+        }
+    }
+
+    getSortedDataAsc = id => {
+        const sortMap = ["firstname", "lastname", "sex", "age"];
+        const sortProp = sortMap[id];
+        const sortedData = this.props.data.filter((ele, index) => true);
+        sortedData.sort((a, b) => {
+            if (a[sortProp] > b[sortProp]) {
+                return 1;
+            } else if (a[sortProp] < b[sortProp]) {
+                return -1;
+            } else {
+                return 0;
+            }
+        })
+        return sortedData;
+    }
+
+    getSortedDataDesc = id => {
+        const sortMap = ["firstname", "lastname", "sex", "age"];
+        const sortProp = sortMap[id];
+        const sortedData = this.props.data.filter((ele, index) => true);
+        sortedData.sort((a, b) => {
+            if (a[sortProp] < b[sortProp]) {
+                return 1;
+            } else if (a[sortProp] > b[sortProp]) {
+                return -1;
+            } else {
+                return 0;
+            }
+        })
+        return sortedData;
+    }
+
     render() {
         const data = this.props.data;
         const isLoad = this.props.isLoad;
@@ -177,6 +237,8 @@ class UserTableMain extends Component {
         const searchData = this.state.searchData;
         const page = this.state.page;
         const rowsPerPage = this.state.rowsPerPage;
+        const sortActiveFlag = this.state.sortActiveFlag
+        const orderBy = this.state.orderBy;
         err ? console.error(err) : console.log("NO ERROR");
         return (
             <div className="project-1-mainpage-container">
@@ -200,10 +262,22 @@ class UserTableMain extends Component {
                             <tr>
                                 <th className="project-1-table-header-edit">Edit</th>
                                 <th className="project-1-table-header-delete">Delete</th>
-                                <th className="project-1-table-header-firstname">First Name</th>
-                                <th className="project-1-table-header-lastname">Last Name</th>
-                                <th className="project-1-table-header-sex">Sex</th>
-                                <th className="project-1-table-header-age">Age</th>
+                                <th className="project-1-table-header-firstname">
+                                    First Name
+                                <TableSortLable
+                                        active={sortActiveFlag[0]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(0)} /></th>
+                                <th className="project-1-table-header-lastname">
+                                    Last Name
+                                    <TableSortLable
+                                        active={sortActiveFlag[1]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(1)} /></th>
+                                <th className="project-1-table-header-sex">
+                                    Sex
+                                    <TableSortLable
+                                        active={sortActiveFlag[2]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(2)} /></th>
+                                <th className="project-1-table-header-age">
+                                    Age
+                                    <TableSortLable
+                                        active={sortActiveFlag[3]} direction={orderBy ? "desc" : "asc"} onClick={() => this.handleSortActive(3)} /></th>
                             </tr>
                         </thead>
                         <tbody className="project-1-table-body">
@@ -299,6 +373,7 @@ const mapDispatchToProps = dispatch => {
         deleteData: (id, event) => dispatch(actions.deleteData(id, event)),
         unSetError: () => dispatch(actions.unSetError()),
         updateData: (id, redirectToEdit) => dispatch(actions.updateData(id, redirectToEdit)),
+        sortData: (sortedData) => dispatch(actions.setUserList(sortedData))
     }
 }
 
