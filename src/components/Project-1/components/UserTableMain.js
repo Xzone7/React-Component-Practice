@@ -16,6 +16,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Snackbar from '@material-ui/core/Snackbar';
+import MySnackbarContentWrapper from './MySnackbarContentWrapper';
 
 
 class UserTableMain extends Component {
@@ -25,16 +27,54 @@ class UserTableMain extends Component {
             searchInput: "",
             searchData: [],
             page: 0,
-            rowsPerPage: 5
+            rowsPerPage: 5,
+            operationFlag: false,
+            operationMsg: ""
         }
     }
 
     componentDidMount() {
-        this.props.fetchData();
+        const historyPath = this.props.location.state
+        if (this.props.history.action === "POP") {
+            this.props.fetchData(
+                {
+                    setSuccessModal: this.handleOpsOpen,
+                    message: ""
+                }
+            );
+        } else if (historyPath && historyPath.pathname === "create") {
+            this.props.location.state = null;
+            this.props.fetchData(
+                {
+                    setSuccessModal: this.handleOpsOpen,
+                    message: "Successfully Create A New User !"
+                }
+            );
+        } else if (historyPath && historyPath.pathname === "edit") {
+            this.props.location.state = null;
+            this.props.fetchData(
+                {
+                    setSuccessModal: this.handleOpsOpen,
+                    message: "Successfully Changed Selected User Data !"
+                }
+            );
+        } else {
+            this.props.fetchData(
+                {
+                    setSuccessModal: this.handleOpsOpen,
+                    message: ""
+                }
+            );
+        }
     }
 
     handleClickDelete = id => {
-        this.props.deleteData(id);
+        this.props.deleteData(id,
+            {
+                setSuccessModal: this.handleOpsOpen,
+                message: ""
+            }
+        );
     }
 
     handleClickEdit = id => {
@@ -112,6 +152,21 @@ class UserTableMain extends Component {
                 marginLeft: theme.spacing(2.5),
             },
         }))
+    }
+
+    handleOpsOpen = (message) => {
+        this.setState({
+            ...this.state,
+            test: true,
+            operationMsg: message
+        });
+    }
+
+    handleOpsClose = () => {
+        this.setState({
+            ...this.state,
+            test: false
+        });
     }
 
     render() {
@@ -211,6 +266,20 @@ class UserTableMain extends Component {
                     </Fab>
                     </div>
                 }
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.test}
+                    autoHideDuration={3000}
+                    onClose={this.handleOpsClose}
+                >
+                    <MySnackbarContentWrapper
+                        onClose={this.handleOpsClose}
+                        variant="success"
+                        message={this.state.operationMsg} />
+                </Snackbar>
             </div>
         );
     }
@@ -226,8 +295,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchData: () => dispatch(actions.getData()),
-        deleteData: (id) => dispatch(actions.deleteData(id)),
+        fetchData: (event) => dispatch(actions.getData(event)),
+        deleteData: (id, event) => dispatch(actions.deleteData(id, event)),
         unSetError: () => dispatch(actions.unSetError()),
         updateData: (id, redirectToEdit) => dispatch(actions.updateData(id, redirectToEdit)),
     }

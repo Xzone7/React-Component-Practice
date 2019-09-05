@@ -87,8 +87,7 @@ class EditUserPage extends React.Component {
             age: this.state.age,
             password: this.state.password
         }
-        this.props.putData(this.props.match.params.userId, newUserData);
-        this.props.history.push('/project-1');
+        this.props.putData(this.props.match.params.userId, newUserData, this.props.history.push);
     }
 
     render() {
@@ -177,7 +176,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        putData: (id, data) => dispatch(actions.putData(id, data))
+        putData: (id, data, redirectToMain) => dispatch(actions.putData(id, data, redirectToMain))
     }
 }
 

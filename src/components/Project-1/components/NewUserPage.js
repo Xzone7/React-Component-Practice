@@ -24,7 +24,7 @@ class NewUserPage extends React.Component {
             firstname: e.target.value
         });
     }
-    
+
     handleOnChangeLastname = e => {
         this.setState({
             ...this.state,
@@ -69,8 +69,7 @@ class NewUserPage extends React.Component {
             age: this.state.age,
             password: this.state.password
         }
-        this.props.postData(newUserData);
-        this.props.history.push('/project-1');
+        this.props.postData(newUserData, this.props.history.push);
     }
 
     render() {
@@ -81,8 +80,8 @@ class NewUserPage extends React.Component {
         const password = this.state.password;
         const repeat = this.state.repeat;
         const enableFlag = firstname.length > 0 && lastname.length && sex.length > 0 &&
-                           age.length > 0 && password.length > 0 && repeat.length > 0 &&
-                           (password === repeat)
+            age.length > 0 && password.length > 0 && repeat.length > 0 &&
+            (password === repeat)
         return (
             <div className="project-1-newuser-container">
                 <div className="project-1-newuser-wrapper">
@@ -91,53 +90,53 @@ class NewUserPage extends React.Component {
                         <div className="project-1-newuser-fillarea">
                             <div>
                                 <label>First Name:</label>
-                                <input type ="text" 
-                                       placeholder="First Name" 
-                                       value={firstname}
-                                       onChange={this.handleOnChangeFirstname} />
+                                <input type="text"
+                                    placeholder="First Name"
+                                    value={firstname}
+                                    onChange={this.handleOnChangeFirstname} />
                             </div>
                             <div>
                                 <label>Last Name:</label>
-                                <input type ="text" 
-                                       placeholder="Last Name" 
-                                       value={lastname}
-                                       onChange={this.handleOnChangeLastname} />
+                                <input type="text"
+                                    placeholder="Last Name"
+                                    value={lastname}
+                                    onChange={this.handleOnChangeLastname} />
                             </div>
                             <div>
                                 <label>Sex:</label>
-                                <input type ="text" 
-                                       placeholder="Sex" 
-                                       value={sex}
-                                       onChange={this.handleOnChangeSex} />
+                                <input type="text"
+                                    placeholder="Sex"
+                                    value={sex}
+                                    onChange={this.handleOnChangeSex} />
                             </div>
                             <div>
                                 <label>Age:</label>
-                                <input type ="text" 
-                                       placeholder="Age" 
-                                       value={age}
-                                       onChange={this.handleOnChangeAge} />
+                                <input type="text"
+                                    placeholder="Age"
+                                    value={age}
+                                    onChange={this.handleOnChangeAge} />
                             </div>
                             <div>
                                 <label>Password:</label>
-                                <input type ="password" 
-                                       placeholder="Password" 
-                                       value={password}
-                                       onChange={this.handleOnChangePassword} />
+                                <input type="password"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={this.handleOnChangePassword} />
                             </div>
                             <div>
                                 <label>Repeat:</label>
-                                <input type ="password" 
-                                       placeholder="Repeat Password" 
-                                       value={repeat}
-                                       onChange={this.handleOnChangeRepeat} />
+                                <input type="password"
+                                    placeholder="Repeat Password"
+                                    value={repeat}
+                                    onChange={this.handleOnChangeRepeat} />
                             </div>
                         </div>
                         <div className="project-1-newuser-button-container">
-                            <Button variant="contained" 
-                                    id="project-1-save-newuser-button" 
-                                    disabled={!enableFlag}
-                                    type="submit"
-                                    value="submit">
+                            <Button variant="contained"
+                                id="project-1-save-newuser-button"
+                                disabled={!enableFlag}
+                                type="submit"
+                                value="submit">
                                 <span>
                                     <SaveAlt />
                                 </span>
@@ -153,7 +152,7 @@ class NewUserPage extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        postData: (data) => dispatch(actions.postData(data))
+        postData: (data, redirectToMain) => dispatch(actions.postData(data, redirectToMain))
     }
 }
 

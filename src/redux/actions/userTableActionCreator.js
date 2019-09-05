@@ -34,18 +34,19 @@ export const unSetError = () => {
     );
 }
 
-export const getData = () => {
+export const getData = (event) => {
     console.log("Start to fetch data...Loading flag dispatched");
     return (dispatch, getState) => {
         dispatch(setLoad());
         axios.get("http://localhost:1024/api/users")
             .then(res => {
                 dispatch(setUserList(res.data));
+                event.message ? event.setSuccessModal(event.message) : event.setSuccessModal("Successfully Load User Data !");
             })
             .catch(err => {
                 dispatch(setError(err));
                 // send request after 5s to retry
-                setTimeout(() => dispatch(getData()), 5000);
+                setTimeout(() => dispatch(getData(event)), 5000);
             })
     };
 }
@@ -54,13 +55,14 @@ export const getData = () => {
         This function call http to server to delete data in db,
         then carry the new data back.
 */
-export const deleteData = id => {
+export const deleteData = (id, event) => {
     console.log("Start to delete data...");
     return (dispatch, getState) => {
         dispatch(setLoad());
         axios.delete(`http://localhost:1024/api/users/${id}`)
             .then(res => {
-                dispatch(getData());
+                event.message = "Suceessfully Delete User Data !";
+                dispatch(getData(event));
             })
             .catch(err => {
                 dispatch(setError(err));
@@ -68,15 +70,16 @@ export const deleteData = id => {
     }
 }
 
-export const postData = data => {
+export const postData = (data, redirectToMain) => {
     console.log("Start to post data...");
     return (dispatch, getState) => {
         dispatch(setLoad());
         axios.post('http://localhost:1024/api/users', data)
             .then(res => {
-                dispatch(getData());
+                redirectToMain('/project-1', { pathname: 'create' });
             })
             .catch(err => {
+                redirectToMain('/project-1', { pathname: 'create' });
                 dispatch(setError(err));
             })
     }
@@ -111,14 +114,15 @@ export const updateData = (id, redirectToEdit) => {
     }
 }
 
-export const putData = (id, data) => {
+export const putData = (id, data, redirectToMain) => {
     console.log(`Start to udate data for user: ${id}...`);
     return (dispatch, getState) => {
         axios.put(`http://localhost:1024/api/users/${id}`, data)
             .then(res => {
-                dispatch(getData());
+                redirectToMain('/project-1', { pathname: 'edit' });
             })
             .catch(err => {
+                redirectToMain('/project-1', { pathname: 'edit' });
                 dispatch(setError());
             })
     }
