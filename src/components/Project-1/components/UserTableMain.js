@@ -269,7 +269,7 @@ class UserTableMain extends Component {
                 <Snackbar
                     anchorOrigin={{
                         vertical: 'bottom',
-                        horizontal: 'left',
+                        horizontal: 'right',
                     }}
                     open={this.state.operationFlag}
                     autoHideDuration={3000}
