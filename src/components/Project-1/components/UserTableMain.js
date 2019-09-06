@@ -160,6 +160,15 @@ class UserTableMain extends Component {
         });
     }
 
+    handlePageOutRange = () => {
+        const lastPage = this.state.page - 1;
+        this.setState({
+            ...this.state,
+            page: this.state.page - 1
+        });
+        return lastPage;
+    }
+
     useStyles = () => {
         return makeStyles(theme => ({
             root: {
@@ -249,6 +258,7 @@ class UserTableMain extends Component {
         const sortActiveFlag = this.state.sortActiveFlag
         const orderBy = this.state.orderBy;
         const openDeleteModal = this.state.openDeleteModal;
+        console.log(page);
         err ? console.error(err) : console.log("NO ERROR");
         return (
             <div className="project-1-mainpage-container">
@@ -300,7 +310,7 @@ class UserTableMain extends Component {
                 <div className="project-1-pagination-container">
                     <TablePagination
                         rowsPerPageOptions={[5, 7, 10]}
-                        page={this.state.page}
+                        page={(data.length > 0 && page * rowsPerPage >= data.length) ? this.handlePageOutRange() : page}
                         rowsPerPage={rowsPerPage}
                         count={data.length}
                         component="div"
