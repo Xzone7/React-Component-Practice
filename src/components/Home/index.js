@@ -26,6 +26,7 @@ const Home = (props) => {
                     </div>
                     <div className="Button-class">
                         <button onClick={() => props.history.push('/project-1')}>project_1(UserList)</button>
+                        <button onClick={() => props.history.push('/project-2')}>project_2(ArmyList)</button>
                     </div>
                 </div>
                 :
