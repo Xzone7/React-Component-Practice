@@ -22,7 +22,7 @@ const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete }) => {
                         <Button variant="outlined"
                             color="primary"
                             size="small">
-                            <Create fontSize="medium" />
+                            <Create fontSize="small" />
                         </Button>
                     </td>
                     <td>
@@ -30,7 +30,7 @@ const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete }) => {
                             color="default"
                             size="small"
                             onClick={() => handleClickDelete(ele)}>
-                            <Delete fontSize="medium" />
+                            <Delete fontSize="small" />
                         </Button>
                     </td>
                 </tr>
