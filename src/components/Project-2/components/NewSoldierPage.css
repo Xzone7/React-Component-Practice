@@ -1,10 +1,14 @@
 .project-2-newuser-form-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
 .project-2-newuser-form-container form{
     margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 #b-1988, #c-1993 {
@@ -18,7 +22,7 @@
 }
 
 #b-1988 input, #b-1988 select {
-  width: 50%;
+  width: 100%;
   background-color: #fafbfc;
   background-repeat: no-repeat;
   background-position: right 8px center;
@@ -31,7 +35,7 @@
 }
 
 #c-1993 {
-    width: 50%;
+    width: 100%;
 }
 
 .b-1998-name-error {
@@ -50,3 +54,41 @@
 #b-1998-error-input {
     border: 1px solid red !important;
 }
+
+.project-2-newuser-avatar-preview {
+    width: 200px;
+    height: 200px;
+}
+
+.project-2-newuser-input-area {
+    margin-right: 50px;
+}
+
+.project-2-newuser-header {
+    margin-left: 30%;
+    margin-right: 30%;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+#chenxu-1993 {
+    font-size: 24px;
+    font-weight: 400;
+    flex: 1 1 auto;
+    margin-bottom: 5px;
+}
+
+.project-2-newuser-img-area {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.project-2-newuser-img-area label {
+    font-weight: 500;
+}
+
+.project-2-upload-button-container {
+    float: right;
+    margin-top: 10px;
+}
+

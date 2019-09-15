@@ -12,6 +12,9 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import DateFnsUtils from '@date-io/date-fns';
 import { connect } from 'react-redux';
 import * as actions from '../../../redux/actions/armyTableActionCreator';
+import * as avatars from '../default_icon';
+import Button from '@material-ui/core/Button';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 class NewSoldierPage extends React.Component {
     constructor(props) {
@@ -26,7 +29,10 @@ class NewSoldierPage extends React.Component {
             superior: "none,none",
             nameErrorFlag: false,
             rankErrorFlag: false,
-            emailErrorFlag: false
+            emailErrorFlag: false,
+            avatar: null,
+            preview_avatar: null,
+            openUpload: false
         }
     }
 
@@ -35,7 +41,13 @@ class NewSoldierPage extends React.Component {
     }
 
     handleImageUpload = file => {
-        console.log(file);
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            console.log(reader.result)
+        }
+
+        reader.readAsDataURL(file[0]);
     }
 
     handleNameChange = e => {
@@ -113,7 +125,7 @@ class NewSoldierPage extends React.Component {
             })
         }
     }
-    
+
     handleSuperiorChange = e => {
         this.setState({
             ...this.state,
@@ -131,7 +143,7 @@ class NewSoldierPage extends React.Component {
         const rankErrorFlag = this.state.rankErrorFlag;
         const emailErrorFlag = this.state.emailErrorFlag;
         const superiorData = this.props.superiorList;
-        console.log(superior);
+        const openUpload = this.props.openUpload;
         return (
             <div>
                 <div>
@@ -145,17 +157,20 @@ class NewSoldierPage extends React.Component {
                     </header>
 
                     <div className="project-2-newuser-form-container">
+                        <div className="project-2-newuser-header">
+                            <h2 id="chenxu-1993">Public profile</h2>
+                        </div>
                         <form>
 
                             <div className="project-2-newuser-input-area">
                                 <div id="b-1988">
-                                    <label>Name:</label>
+                                    <label>Name</label>
                                     <input id={nameErrorFlag ? "b-1998-error-input" : "1988"} value={name} onChange={this.handleNameChange}></input>
                                     {nameErrorFlag && <p className="b-1998-name-error">Invalid Name Format</p>}
                                 </div>
 
                                 <div id="b-1988">
-                                    <label>Rank:</label>
+                                    <label>Rank</label>
                                     <input id={rankErrorFlag ? "b-1998-error-input" : "1988"} list="rankname" value={rank} onChange={this.handleRankChange} />
                                     <datalist id="rankname">
                                         <option value="General" />
@@ -173,7 +188,7 @@ class NewSoldierPage extends React.Component {
                                 </div>
 
                                 <div id="b-1988">
-                                    <label>Sex:</label>
+                                    <label>Sex</label>
                                     <RadioGroup aria-label="sex" name="customized-radios" style={{ flexDirection: "row" }}>
                                         <FormControllLabel value="male" control={<StyledRadio />} label="Male" onChange={() => this.handleSexChange("male")} />
                                         <FormControllLabel value="female" control={<StyledRadio />} label="Female" onChange={() => this.handleSexChange("female")} />
@@ -181,7 +196,7 @@ class NewSoldierPage extends React.Component {
                                 </div>
 
                                 <div id="c-1993">
-                                    <label>Start Date:</label>
+                                    <label>Start Date</label>
                                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                                         <KeyboardDatePicker
                                             disableToolbar
@@ -199,18 +214,18 @@ class NewSoldierPage extends React.Component {
                                 </div>
 
                                 <div id="c-1993">
-                                    <label>Office Phone:</label>
+                                    <label>Office Phone</label>
                                     <MuiPhoneNumber defaultCountry={'us'} disableAreaCodes onChange={this.handlePhoneChange} />
                                 </div>
 
                                 <div id="b-1988">
-                                    <label>Email:</label>
+                                    <label>Email</label>
                                     <input id={emailErrorFlag ? "b-1998-error-input" : "1988"} value={email} onChange={this.handleEmailChange} />
                                     {emailErrorFlag && <p className="b-1998-name-error">Invalid Email</p>}
                                 </div>
 
                                 <div id="b-1988">
-                                    <label>Superior:</label>
+                                    <label>Superior</label>
                                     <select onChange={this.handleSuperiorChange} value={superior}>
                                         <option value="none,none">None</option>
                                         {superiorData.map((ele, index) => {
@@ -223,10 +238,16 @@ class NewSoldierPage extends React.Component {
                             </div>
 
                             <div className="project-2-newuser-img-area">
+                                <label>Profile picture</label>
+                                <img className="project-2-newuser-avatar-preview" src={avatars.default_avatar} alt="logo" />
+                                <div>
+                                    <UploadButton />
+                                </div>
                                 <DropzoneArea onChange={this.handleImageUpload}
                                     filesLimit={1}
                                     acceptedFiles={['image/*']}
-                                    maxFileSize={10000000} />
+                                    maxFileSize={10000000} 
+                                    onSave={() => console.log(1)}/>
                             </div>
 
                         </form>
@@ -252,7 +273,20 @@ const StyledRadio = (props) => {
     );
 }
 
-const useStyles = makeStyles({
+const UploadButton = (props) => {
+    const classes = useStyles();
+
+    return (
+        <div className="project-2-upload-button-container" >
+            <Button variant="contained" color="default" className={classes.button}>
+                Upload
+            <CloudUploadIcon className={classes.rightIcon} />
+            </Button>
+        </div>
+    );
+}
+
+const useStyles = makeStyles((theme) => ({
     root: {
         '&:hover': {
             backgroundColor: 'transparent',
@@ -291,7 +325,13 @@ const useStyles = makeStyles({
             backgroundColor: '#106ba3',
         },
     },
-});
+    rightIcon: {
+        marginLeft: theme.spacing(1),
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+}));
 
 const mapStateToProps = state => {
     return {
