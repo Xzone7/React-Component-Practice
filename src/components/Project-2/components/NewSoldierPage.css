@@ -17,7 +17,7 @@
     font-weight: 500;
 }
 
-#b-1988 input {
+#b-1988 input, #b-1988 select {
   width: 50%;
   background-color: #fafbfc;
   background-repeat: no-repeat;
@@ -32,4 +32,21 @@
 
 #c-1993 {
     width: 50%;
+}
+
+.b-1998-name-error {
+    color: red;
+    margin: 0;
+    font-size: 0.75rem;
+    margin-top: 8px;
+    min-height: 1em;
+    text-align: left;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1em;
+    letter-spacing: 0.03333em;
+}
+
+#b-1998-error-input {
+    border: 1px solid red !important;
 }

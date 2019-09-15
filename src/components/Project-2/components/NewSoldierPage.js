@@ -10,6 +10,8 @@ import { makeStyles } from "@material-ui/core";
 import clsx from 'clsx';
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { connect } from 'react-redux';
+import * as actions from '../../../redux/actions/armyTableActionCreator';
 
 class NewSoldierPage extends React.Component {
     constructor(props) {
@@ -21,19 +23,56 @@ class NewSoldierPage extends React.Component {
             start_date: new Date(),
             phone: "",
             email: "",
-            superior: ""
+            superior: "none,none",
+            nameErrorFlag: false,
+            rankErrorFlag: false,
+            emailErrorFlag: false
         }
+    }
+
+    componentDidMount() {
+        this.props.getSuperiorData();
     }
 
     handleImageUpload = file => {
         console.log(file);
     }
 
+    handleNameChange = e => {
+        const regex = /[A-Z][a-zA-Z][^#&<>\"~;$^%{}?]{1,20}$/g;
+        const inputName = e.target.value;
+        if (regex.test(inputName)) {
+            this.setState({
+                ...this.state,
+                name: inputName,
+                nameErrorFlag: false
+            });
+        } else {
+            // If user input is not valid, fire flag on
+            this.setState({
+                ...this.state,
+                name: inputName,
+                nameErrorFlag: true
+            });
+        }
+    }
+
     handleRankChange = e => {
-        this.setState({
-            ...this.state,
-            rank: e.target.value
-        });
+        const allowRank = ["General", "Colonel", "Major", "Captain", "Lieutenant", "Warrant Officer", "Sergeant", "Corporal", "Specialist", "Private"];
+        const inputRank = e.target.value.replace(/^\w/, c => c.toUpperCase());
+        if (allowRank.find(ele => ele === inputRank)) {
+            this.setState({
+                ...this.state,
+                rank: inputRank,
+                rankErrorFlag: false
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                rank: inputRank,
+                rankErrorFlag: true
+            });
+        }
     }
 
     handleSexChange = sexData => {
@@ -50,9 +89,49 @@ class NewSoldierPage extends React.Component {
         });
     }
 
+    handlePhoneChange = value => {
+        this.setState({
+            ...this.state,
+            phone: value
+        });
+    }
+
+    handleEmailChange = e => {
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const inputEmail = e.target.value;
+        if (regex.test(inputEmail)) {
+            this.setState({
+                ...this.state,
+                email: inputEmail,
+                emailErrorFlag: false
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                email: inputEmail,
+                emailErrorFlag: true
+            })
+        }
+    }
+    
+    handleSuperiorChange = e => {
+        this.setState({
+            ...this.state,
+            superior: e.target.value
+        });
+    }
+
     render() {
+        const name = this.state.name;
         const rank = this.state.rank;
         const start_date = this.state.start_date;
+        const email = this.state.email;
+        const superior = this.state.superior;
+        const nameErrorFlag = this.state.nameErrorFlag;
+        const rankErrorFlag = this.state.rankErrorFlag;
+        const emailErrorFlag = this.state.emailErrorFlag;
+        const superiorData = this.props.superiorList;
+        console.log(superior);
         return (
             <div>
                 <div>
@@ -71,12 +150,13 @@ class NewSoldierPage extends React.Component {
                             <div className="project-2-newuser-input-area">
                                 <div id="b-1988">
                                     <label>Name:</label>
-                                    <input></input>
+                                    <input id={nameErrorFlag ? "b-1998-error-input" : "1988"} value={name} onChange={this.handleNameChange}></input>
+                                    {nameErrorFlag && <p className="b-1998-name-error">Invalid Name Format</p>}
                                 </div>
 
                                 <div id="b-1988">
                                     <label>Rank:</label>
-                                    <input list="rankname" value={rank} onChange={this.handleRankChange}/>
+                                    <input id={rankErrorFlag ? "b-1998-error-input" : "1988"} list="rankname" value={rank} onChange={this.handleRankChange} />
                                     <datalist id="rankname">
                                         <option value="General" />
                                         <option value="Colonel" />
@@ -89,6 +169,7 @@ class NewSoldierPage extends React.Component {
                                         <option value="Specialist" />
                                         <option value="Private" />
                                     </datalist>
+                                    {rankErrorFlag && <p className="b-1998-name-error">Invalid Rank</p>}
                                 </div>
 
                                 <div id="b-1988">
@@ -117,19 +198,27 @@ class NewSoldierPage extends React.Component {
                                     </MuiPickersUtilsProvider>
                                 </div>
 
-                                <div id="b-1988">
+                                <div id="c-1993">
                                     <label>Office Phone:</label>
-                                    <input></input>
+                                    <MuiPhoneNumber defaultCountry={'us'} disableAreaCodes onChange={this.handlePhoneChange} />
                                 </div>
 
                                 <div id="b-1988">
                                     <label>Email:</label>
-                                    <input></input>
+                                    <input id={emailErrorFlag ? "b-1998-error-input" : "1988"} value={email} onChange={this.handleEmailChange} />
+                                    {emailErrorFlag && <p className="b-1998-name-error">Invalid Email</p>}
                                 </div>
 
                                 <div id="b-1988">
                                     <label>Superior:</label>
-                                    <input></input>
+                                    <select onChange={this.handleSuperiorChange} value={superior}>
+                                        <option value="none,none">None</option>
+                                        {superiorData.map((ele, index) => {
+                                            return (
+                                                <option key={index} value={[ele.name, ele._id]}>{ele.name}</option>
+                                            );
+                                        })}
+                                    </select>
                                 </div>
                             </div>
 
@@ -204,4 +293,18 @@ const useStyles = makeStyles({
     },
 });
 
-export default NewSoldierPage;
+const mapStateToProps = state => {
+    return {
+        superiorList: state.armyTable.superior,
+        isLoad: state.armyTable.isLoad,
+        isError: state.armyTable.err
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getSuperiorData: () => dispatch(actions.getSuperiorData())
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewSoldierPage);
