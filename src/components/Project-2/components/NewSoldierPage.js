@@ -15,6 +15,9 @@ import * as actions from '../../../redux/actions/armyTableActionCreator';
 import * as avatars from '../default_icon';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import SaveIcon from '@material-ui/icons/Save';
+import { withRouter } from 'react-router-dom';
+import LoadingPage from '../../Project-1/components/LoadingPage';
 
 class NewSoldierPage extends React.Component {
     constructor(props) {
@@ -29,6 +32,8 @@ class NewSoldierPage extends React.Component {
             superior: "none,none",
             nameErrorFlag: false,
             rankErrorFlag: false,
+            dateErrorFlag: false,
+            phoneErrorFlag: false,
             emailErrorFlag: false,
             avatar: null,
             preview_avatar: null,
@@ -38,16 +43,40 @@ class NewSoldierPage extends React.Component {
 
     componentDidMount() {
         this.props.getSuperiorData();
+        this.setState({
+            ...this.state,
+            avatar: avatars.default_avatar
+        });
     }
 
-    handleImageUpload = file => {
-        const reader = new FileReader();
+    handlePreImgUpload = file => {
+        if (file[0]) {
+            const reader = new FileReader();
 
-        reader.onloadend = () => {
-            console.log(reader.result)
+            reader.onloadend = () => {
+                this.setState({
+                    ...this.state,
+                    preview_avatar: reader.result
+                });
+            }
+
+            reader.readAsDataURL(file[0]);
+        } else {
+            // delete preview in dropzone
+            this.setState({
+                ...this.state,
+                preview_avatar: null
+            });
         }
+    }
 
-        reader.readAsDataURL(file[0]);
+    handleRealImgUpload = () => {
+        const preview_avatar = this.state.preview_avatar;
+        this.setState({
+            ...this.state,
+            avatar: preview_avatar ? preview_avatar : avatars.default_avatar,
+            openUpload: false
+        });
     }
 
     handleNameChange = e => {
@@ -95,17 +124,37 @@ class NewSoldierPage extends React.Component {
     }
 
     handleStartDateChange = date => {
-        this.setState({
-            ...this.state,
-            start_date: date
-        });
+        if (date) {
+            this.setState({
+                ...this.state,
+                start_date: date,
+                dateErrorFlag: false
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                start_date: date,
+                dateErrorFlag: true
+            })
+        }
     }
 
     handlePhoneChange = value => {
-        this.setState({
-            ...this.state,
-            phone: value
-        });
+        const regex = /^(\([0-9]{3}\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/;
+        const americanPhone = value.slice(3);
+        if (regex.test(americanPhone)) {
+            this.setState({
+                ...this.state,
+                phone: value,
+                phoneErrorFlag: false
+            });
+        } else {
+            this.setState({
+                ...this.state,
+                phone: value,
+                phoneErrorFlag: true
+            });
+        }
     }
 
     handleEmailChange = e => {
@@ -133,6 +182,52 @@ class NewSoldierPage extends React.Component {
         });
     }
 
+    handleClickUploadandCancel = () => {
+        this.setState({
+            ...this.state,
+            openUpload: !this.state.openUpload,
+            preview_avatar: null
+        });
+    }
+
+    handleClickCanclePage = () => {
+        this.props.history.push('/project-2');
+    }
+
+    handleSubmit = () => {
+        const formCorrectFlag = (
+            this.state.name.length > 0 && !this.state.nameErrorFlag && 
+            this.state.rank.length > 0 && !this.state.rankErrorFlag && 
+            this.state.sex.length > 0 && 
+            this.state.start_date.toString() !== "Invalid Date" && !this.state.dateErrorFlag &&
+            !this.state.phoneErrorFlag &&
+            this.state.email.length > 0 && !this.state.emailErrorFlag);
+
+        if (!formCorrectFlag) {
+            alert("Please fill out required area!");
+        } else {
+            // serveral checks here: start_date --> convert to string, 
+            //                       superior --> convert to object,
+            //                       avatar --> convert to pure base64, remove data:*/*;base64, from the result. 
+            const superiorRaw = this.state.superior.split(",");
+            const superiorName = superiorRaw[0] === "none" ? null : superiorRaw[0];
+            const superiorId = superiorRaw[1] === "none" ? null : superiorRaw[1];
+
+            const newSoldierData = {
+                avatar_img: this.state.avatar.split(",")[1],
+                name: this.state.name,
+                rank: this.state.rank,
+                sex: this.state.sex,
+                start_date: this.state.start_date.toLocaleDateString(),
+                phone: this.state.phone,
+                email: this.state.email,
+                superior: { name: superiorName, _id: superiorId}
+            };
+
+            this.props.postNewSolider(newSoldierData, this.props.history);
+        }
+    }
+
     render() {
         const name = this.state.name;
         const rank = this.state.rank;
@@ -141,14 +236,19 @@ class NewSoldierPage extends React.Component {
         const superior = this.state.superior;
         const nameErrorFlag = this.state.nameErrorFlag;
         const rankErrorFlag = this.state.rankErrorFlag;
+        const dateErrorFlag = this.state.dateErrorFlag;
+        const phoneErrorFlag = this.state.phoneErrorFlag;
         const emailErrorFlag = this.state.emailErrorFlag;
         const superiorData = this.props.superiorList;
-        const openUpload = this.props.openUpload;
+        const openUpload = this.state.openUpload;
+        const avatar = this.state.avatar;
+        const isLoad = this.props.isLoad;
         return (
             <div>
                 <div>
                     <MaterialUINavBar />
                 </div>
+                {isLoad && <LoadingPage />}
                 <div className="project-2-newuser-container">
 
                     <header className="project-2-mainpage-header">
@@ -159,6 +259,10 @@ class NewSoldierPage extends React.Component {
                     <div className="project-2-newuser-form-container">
                         <div className="project-2-newuser-header">
                             <h2 id="chenxu-1993">Public profile</h2>
+                            <div className="project-2-submit-button">
+                                <button onClick={this.handleClickCanclePage}>Cancle</button>
+                                <button onClick={this.handleSubmit}>Save profile</button>
+                            </div>
                         </div>
                         <form>
 
@@ -211,11 +315,13 @@ class NewSoldierPage extends React.Component {
                                             }}
                                         />
                                     </MuiPickersUtilsProvider>
+                                    {dateErrorFlag && <p className="b-1998-name-error">Please enter your start date</p>}
                                 </div>
 
                                 <div id="c-1993">
                                     <label>Office Phone</label>
                                     <MuiPhoneNumber defaultCountry={'us'} disableAreaCodes onChange={this.handlePhoneChange} />
+                                    {phoneErrorFlag && <p className="b-1998-name-error">Invalid Phone number</p>}
                                 </div>
 
                                 <div id="b-1988">
@@ -235,25 +341,39 @@ class NewSoldierPage extends React.Component {
                                         })}
                                     </select>
                                 </div>
+                                <div className="cx-1993-p-container">
+                                    <p className="cx-1993-p">All of the fields on this page are critical and can be deleted at any time,
+                                        and by filling them out,
+                                        you're giving us consent to share this data wherever your user profile appears.
+                                        Please see our <a href="https://help.github.com/en/articles/github-privacy-statement">privacy statement</a> to learn more about how we use this information.
+                                    </p>
+                                </div>
                             </div>
 
                             <div className="project-2-newuser-img-area">
-                                <label>Profile picture</label>
-                                <img className="project-2-newuser-avatar-preview" src={avatars.default_avatar} alt="logo" />
-                                <div>
-                                    <UploadButton />
+                                <div className="project-2-newuser-img-header-container">
+                                    <label>Profile picture {avatar === avatars.default_avatar && "(default)"}</label>
+                                    <img className="project-2-newuser-avatar-preview" src={avatar} alt="logo" />
                                 </div>
-                                <DropzoneArea onChange={this.handleImageUpload}
-                                    filesLimit={1}
-                                    acceptedFiles={['image/*']}
-                                    maxFileSize={10000000} 
-                                    onSave={() => console.log(1)}/>
+                                <div>
+                                    {!openUpload && <UploadButton onClose={this.handleClickUploadandCancel} />}
+                                    {openUpload && <SaveAndCancleButton onCancle={this.handleClickUploadandCancel} 
+                                                                        onSave={this.handleRealImgUpload}
+                                                                        preview_avatar={this.state.preview_avatar} />}
+                                </div>
+                                {openUpload &&
+                                    <DropzoneArea
+                                        open={openUpload}
+                                        onChange={this.handlePreImgUpload}
+                                        filesLimit={1}
+                                        acceptedFiles={['image/*']}
+                                        maxFileSize={10000000} />
+                                }
                             </div>
-
                         </form>
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }
@@ -273,14 +393,30 @@ const StyledRadio = (props) => {
     );
 }
 
-const UploadButton = (props) => {
+const UploadButton = ({ onClose }) => {
     const classes = useStyles();
 
     return (
         <div className="project-2-upload-button-container" >
-            <Button variant="contained" color="default" className={classes.button}>
+            <Button variant="contained" color="default" size="small" className={classes.button} onClick={onClose}>
                 Upload
             <CloudUploadIcon className={classes.rightIcon} />
+            </Button>
+        </div>
+    );
+}
+
+const SaveAndCancleButton = ({ onCancle, onSave, preview_avatar }) => {
+    const classes = useStyles();
+
+    return (
+        <div className="project-2-upload-button-container">
+            <Button variant="contained" size="small" className={classes.button} onClick={onSave} disabled={!preview_avatar}>
+                <SaveIcon className={clsx(classes.leftIcon, classes.iconSmall)} />
+                Save
+            </Button>
+            <Button variant="contained" size="small" className={classes.button} onClick={onCancle}>
+                Cancle
             </Button>
         </div>
     );
@@ -331,20 +467,26 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
     },
+    leftIcon: {
+        marginRight: theme.spacing(1),
+    },
+    iconSmall: {
+        fontSize: 20,
+    },
 }));
 
 const mapStateToProps = state => {
     return {
         superiorList: state.armyTable.superior,
         isLoad: state.armyTable.isLoad,
-        isError: state.armyTable.err
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        getSuperiorData: () => dispatch(actions.getSuperiorData())
+        getSuperiorData: () => dispatch(actions.getSuperiorData()),
+        postNewSolider: (data, event) => dispatch(actions.postData(data, event))
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewSoldierPage);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NewSoldierPage));

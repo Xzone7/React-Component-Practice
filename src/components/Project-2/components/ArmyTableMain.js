@@ -7,6 +7,7 @@ import * as actions from '../../../redux/actions/armyTableActionCreator';
 import ArmyTableRow from './ArmyTableRow';
 import DeleteDiglog from './DeleteDiglog';
 import { withRouter } from 'react-router-dom';
+import LoadingPage from '../../Project-1/components/LoadingPage';
 
 class ArmyTableMain extends React.Component {
     constructor(props) {
@@ -41,7 +42,11 @@ class ArmyTableMain extends React.Component {
     }
 
     handleClickDeleteConfirm = data => {
-        this.props.deleteData(data);
+        const deleteData = {
+            ...data,
+            avatar_img: null
+        }
+        this.props.deleteData(deleteData);
         this.setState({
             ...this.state,
             openDeleteModal: [false, null]
@@ -54,9 +59,12 @@ class ArmyTableMain extends React.Component {
 
     render() {
         const data = this.props.data;
+        const isLoad = this.props.isLoad;
         const openDeleteModal = this.state.openDeleteModal;
         return (
             <div className="project-2-mainpage-container">
+
+                {isLoad && <LoadingPage />}
 
                 <header className="project-2-mainpage-header">
                     <img src="/armyLogo.png" alt="logo" className="project-2-mainpage-header-logo" />
@@ -93,7 +101,7 @@ class ArmyTableMain extends React.Component {
                             </tr>
                         </thead>
                         <tbody className="project-2-table-body">
-                            <ArmyTableRow data={data} handleClickDelete={this.handleClickDelete}/>
+                            {!isLoad && <ArmyTableRow data={data} handleClickDelete={this.handleClickDelete} />}
                         </tbody>
                     </table>
                 </div>

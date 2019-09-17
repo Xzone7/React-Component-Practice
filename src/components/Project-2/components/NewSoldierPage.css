@@ -58,6 +58,8 @@
 .project-2-newuser-avatar-preview {
     width: 200px;
     height: 200px;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+    border-radius: 5px;
 }
 
 .project-2-newuser-input-area {
@@ -68,6 +70,7 @@
     margin-left: 30%;
     margin-right: 30%;
     border-bottom: 1px solid #e1e4e8;
+    display: flex;
 }
 
 #chenxu-1993 {
@@ -81,14 +84,70 @@
     display: flex;
     flex-direction: column;
     padding: 10px;
+    width: 458.7px;
 }
 
 .project-2-newuser-img-area label {
     font-weight: 500;
+    margin-bottom: 8px;
 }
 
 .project-2-upload-button-container {
     float: right;
     margin-top: 10px;
 }
+
+.project-2-newuser-img-header-container{
+    display: flex;
+    flex-direction: column;
+    margin-left: 25%;
+}
+
+.cx-1993-p {
+    font-size: 12px;
+    color: #586069;
+}
+
+.cx-1993-p-container {
+    position: absolute;
+    padding: 10px;
+    width: 400px;
+}
+
+.cx-1993-p-container a {
+    color: #0366d6;
+}
+
+.project-2-submit-button {
+    display: flex;
+}
+
+.project-2-submit-button button {
+    color: #fff;
+    background-color: #28a745;
+    background-image: linear-gradient(-180deg,#34d058,#28a745 90%);
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-repeat: repeat-x;
+    background-position: -1px -1px;
+    background-size: 110% 110%;
+    border: 1px solid rgba(27,31,35,.2);
+    border-radius: .25em;
+    -webkit-appearance: none;
+    height: 30px;
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 23px;
+}
+
+.project-2-submit-button button:hover {
+    background-image: linear-gradient(-180deg,#3bdf61,#1f8336 90%);
+}
+
 

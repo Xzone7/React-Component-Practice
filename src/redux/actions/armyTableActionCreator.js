@@ -64,6 +64,22 @@ export const getSuperiorData = () => {
     }
 }
 
+// POST new soldier
+export const postData = (data, event) => {
+    console.log("Start to post data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.post("http://localhost:1024/api/armyusers", data)
+            .then(res => {
+                event.push('/project-2');
+            })
+            .catch(err => {
+                event.push('/project-2');
+                dispatch(setError());
+            })
+    }
+}
+
 export const deleteData = (data) => {
     console.log("Start to delete data...");
     return (dispatch, getState) => {
