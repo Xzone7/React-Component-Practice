@@ -21,7 +21,8 @@ const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete }) => {
                     <td>
                         <Button variant="outlined"
                             color="primary"
-                            size="small">
+                            size="small"
+                            onClick={() => handleClickEdit(ele._id)}>
                             <Create fontSize="small" />
                         </Button>
                     </td>

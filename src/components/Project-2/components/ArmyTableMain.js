@@ -57,6 +57,10 @@ class ArmyTableMain extends React.Component {
         this.props.history.push('/project-2/create');
     }
 
+    handleClickEdit = id => {
+        this.props.history.push(`/project-2/edit/${id}`);
+    }
+
     render() {
         const data = this.props.data;
         const isLoad = this.props.isLoad;
@@ -101,7 +105,7 @@ class ArmyTableMain extends React.Component {
                             </tr>
                         </thead>
                         <tbody className="project-2-table-body">
-                            {!isLoad && <ArmyTableRow data={data} handleClickDelete={this.handleClickDelete} />}
+                            {!isLoad && <ArmyTableRow data={data} handleClickDelete={this.handleClickDelete} handleClickEdit={this.handleClickEdit} />}
                         </tbody>
                     </table>
                 </div>

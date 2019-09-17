@@ -15,6 +15,7 @@ import ProblemDetail from './components/class_4/components/ProblemDetail.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import NewSoldierPage from './components/Project-2/components/NewSoldierPage';
+import EditSoldierPage from './components/Project-2/components/EditSoldierPage';
 
 /* App Component serves as pure Router Component */
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/project-1/edit/:userId" component={EditUserPage} />
           <Route path="/project-1/create" component={NewUserPage} />
           <Route path="/project-1" component={Project_1} />
+          <Route path="/project-2/edit/:userId" component={EditSoldierPage} />
           <Route path="/project-2/create" component={NewSoldierPage} />
           <Route path="/project-2" component={Project_2} />
         </Switch>

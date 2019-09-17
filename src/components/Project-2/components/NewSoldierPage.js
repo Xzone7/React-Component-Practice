@@ -294,8 +294,8 @@ class NewSoldierPage extends React.Component {
                                 <div id="b-1988">
                                     <label>Sex</label>
                                     <RadioGroup aria-label="sex" name="customized-radios" style={{ flexDirection: "row" }}>
-                                        <FormControllLabel value="male" control={<StyledRadio />} label="Male" onChange={() => this.handleSexChange("male")} />
-                                        <FormControllLabel value="female" control={<StyledRadio />} label="Female" onChange={() => this.handleSexChange("female")} />
+                                        <FormControllLabel value="Male" control={<StyledRadio />} label="Male" onChange={() => this.handleSexChange("Male")} />
+                                        <FormControllLabel value="Female" control={<StyledRadio />} label="Female" onChange={() => this.handleSexChange("Female")} />
                                     </RadioGroup>
                                 </div>
 
@@ -478,7 +478,7 @@ const useStyles = makeStyles((theme) => ({
 const mapStateToProps = state => {
     return {
         superiorList: state.armyTable.superior,
-        isLoad: state.armyTable.isLoad,
+        isLoad: state.armyTable.isLoad
     };
 }
 
