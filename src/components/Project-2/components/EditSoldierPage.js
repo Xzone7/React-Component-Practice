@@ -61,6 +61,7 @@ class EditSoldierPage extends React.Component {
                 }
             }
         });
+        this.props.getNoCircleSuperiorData(userId);
     }
 
     handlePreImgUpload = file => {
@@ -257,6 +258,7 @@ class EditSoldierPage extends React.Component {
         const emailErrorFlag = this.state.emailErrorFlag;
         const openUpload = this.state.openUpload;
         const avatar = this.state.avatar;
+        const allowSuperiorData = this.props.allowSuperiorData;
         const isLoad = this.props.isLoad;
         return (
             <div>
@@ -349,11 +351,11 @@ class EditSoldierPage extends React.Component {
                                     <label>Superior</label>
                                     <select onChange={this.handleSuperiorChange} value={superior}>
                                         <option value="none,none">None</option>
-                                        {/* {superiorData.map((ele, index) => {
+                                        {allowSuperiorData.map((ele, index) => {
                                             return (
                                                 <option key={index} value={[ele.name, ele._id]}>{ele.name}</option>
                                             );
-                                        })} */}
+                                        })}
                                     </select>
                                 </div>
                                 <div className="cx-1993-p-container">
@@ -546,12 +548,13 @@ const mapStateToProps = state => {
     return {
         data: state.armyTable.data,
         isLoad: state.armyTable.isLoad,
+        allowSuperiorData: state.armyTable.allowSuperior
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        // to do
+        getNoCircleSuperiorData: (id) => dispatch(actions.getNoCircleSuperiorData(id))
     };
 }
 

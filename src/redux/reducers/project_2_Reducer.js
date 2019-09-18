@@ -4,7 +4,8 @@ const initState = {
     err: null,
     page: 0,
     pagePerRow: 5,
-    superior: []
+    superior: [],
+    allowSuperior: []
 };
 
 const armyTableReducer = (state = initState, action) => {
@@ -31,6 +32,18 @@ const armyTableReducer = (state = initState, action) => {
             return {
                 ...state,
                 superior: action.data.map((ele, index) => {
+                    return {
+                        name: ele.name,
+                        _id: ele._id
+                    };
+                }),
+                isLoad: false,
+                err: null
+            }
+        case "USER_ALLOW_SUPERIOR_FETCH_SUCCESS":
+            return {
+                ...state,
+                allowSuperior: action.data.map((ele, index) => {
                     return {
                         name: ele.name,
                         _id: ele._id

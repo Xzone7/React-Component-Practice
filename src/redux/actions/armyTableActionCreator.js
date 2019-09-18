@@ -35,6 +35,15 @@ export const setSuperior = data => {
     );
 }
 
+export const setAllowEditSuperior = data => {
+    return (
+        {
+            type: "USER_ALLOW_SUPERIOR_FETCH_SUCCESS",
+            data
+        }
+    );
+}
+
 export const getData = () => {
     console.log("Start to fetch data...Loading flag dispatched");
     return (dispatch, getState) => {
@@ -60,7 +69,22 @@ export const getSuperiorData = () => {
             })
             .catch(err => {
                 dispatch(setError(err));
+            });
+    }
+}
+
+// HTTP CALL for edit user valid superior (avoid circle)
+export const getNoCircleSuperiorData = id => {
+    console.log("Start to fetch valid no circle superior data....Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.get(`http://localhost:1024/api/allow-edit-superior/${id}`)
+            .then(res => {
+                dispatch(setAllowEditSuperior(res.data));
             })
+            .catch(err => {
+                dispatch(setError(err));
+            });
     }
 }
 
