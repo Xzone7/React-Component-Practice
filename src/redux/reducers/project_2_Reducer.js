@@ -93,13 +93,13 @@ const armyTableReducer = (state = initState, action) => {
                 page: 0
             }
 
-        case "USER_UNSET_ERROR": 
+        case "USER_UNSET_ERROR":
             return {
                 ...state,
                 err: null
             }
 
-        case "USER_FETCH_SEARCH_DATA": 
+        case "USER_FETCH_SEARCH_DATA":
             return {
                 ...state,
                 searchData: action.data,
@@ -126,9 +126,23 @@ const armyTableReducer = (state = initState, action) => {
         case "USER_FETCH_SUBORDINATE_VIEW":
             return {
                 ...state,
-                data: action.data, // ?
+                data: action.data,
                 isLoad: false,
                 err: null
+            }
+
+        case "USER_RESET_PAGE_VIEW":
+            return {
+                ...state,
+                data: action.data,
+                isLoad: false,
+                err: null,
+                page: 0,
+                rowPerPage: 6,
+                superior: [],
+                allowSuperior: [],
+                paginationLoad: false,
+                searchData: []
             }
 
         default:

@@ -129,6 +129,15 @@ export const setSubordinateView = data => {
     );
 }
 
+export const setInitialPageView = data => {
+    return (
+        {
+            type: "USER_RESET_PAGE_VIEW",
+            data
+        }
+    );
+}
+
 export const getSuperiorView = (id) => {
     console.log("Start to fetch superior data...Loading flag dispatched");
     return (dispatch, getState) => {
@@ -310,5 +319,20 @@ export const deleteData = (data) => {
             .catch(err => {
                 dispatch(setError());
             })
+    }
+}
+
+export const resetData = () => {
+    console.log("Start to rest all data...");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        const currentRowPerPage = getState().armyTable.rowPerPage;
+        axios.get(`http://localhost:1024/api/armyusers?page=0&&rpp=${currentRowPerPage}`)
+            .then(res => {
+                dispatch(setInitialPageView(res.data));
+            })
+            .catch(err => {
+                dispatch(setError(err));
+            });
     }
 }

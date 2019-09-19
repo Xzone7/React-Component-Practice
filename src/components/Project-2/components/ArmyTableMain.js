@@ -155,7 +155,18 @@ class ArmyTableMain extends React.Component {
     }
 
     handleClickReset = () => {
-
+        // reset redux data
+        this.props.resetData();
+        
+        // initial local control states
+        this.setState({
+            input: "",
+            openDeleteModal: [false, null],
+            loadMoreFlag: false,
+            loadEndFlag: false,
+            orderBy: false,
+            sortActiveFlag: [false, false, false, false],
+        });
     }
 
     render() {
@@ -311,7 +322,8 @@ const mapDispatchToProps = dispatch => {
         searchInput: (key) => dispatch(actions.getSearchData(key)),
         getSortedData: (id, order) => dispatch(actions.getSortedData(id, order)),
         getSuperiorView: (id) => dispatch(actions.getSuperiorView(id)),
-        getSubordinateView: (id) => dispatch(actions.getSubordinateView(id))
+        getSubordinateView: (id) => dispatch(actions.getSubordinateView(id)),
+        resetData: () => dispatch(actions.resetData())
     }
 }
 
