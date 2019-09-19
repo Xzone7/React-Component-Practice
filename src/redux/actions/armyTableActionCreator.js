@@ -102,17 +102,40 @@ export const setSearchData = data => {
     );
 }
 
+export const setSortedData = data => {
+    return (
+        {
+            type: "USER_FETCH_SORTED_DATA",
+            data
+        }
+    )
+}
+
 export const getSearchData = (key) => {
     console.log("Start to fetch search data...Loading flag dispatched");
     return (dispatch, getState) => {
-        dispatch(setLoad())
+        dispatch(setLoad());
         axios.get(`http://localhost:1024/api/armyusers?search=true&&key=${key}`)
             .then(res => {
                 dispatch(setSearchData(res.data));
             })
             .catch(err => {
                 dispatch(setError(err));
+            });
+    }
+}
+
+export const getSortedData = (id, order) => {
+    console.log("Start to fetch sorted data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.get(`http://localhost:1024/api/armyusers?sort=${order}&&sortkey=${id}`)
+            .then(res => {
+                dispatch(setSortedData(res.data));
             })
+            .catch(err => {
+                dispatch(setError(err));
+            });
     }
 }
 

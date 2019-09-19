@@ -123,6 +123,7 @@ class ArmyTableMain extends React.Component {
     }
 
     handleSortActive = id => {
+        this.refs.tbodyRef.removeEventListener("scroll", this.handleScroll);
         if (!this.state.sortActiveFlag[id]) {
             this.setState({
                 ...this.state,
@@ -133,9 +134,10 @@ class ArmyTableMain extends React.Component {
         } else {
             if (this.state.orderBy) {
                 // do Asc
-                
+                this.props.getSortedData(id, "asc");
             } else {
                 // do Desc
+                this.props.getSortedData(id, "desc");
             }
             this.setState({
                 ...this.state,
@@ -292,7 +294,8 @@ const mapDispatchToProps = dispatch => {
         deleteData: (data) => dispatch(actions.deleteData(data)),
         loadMore: (setScroll, loadMore, loadEnd) => dispatch(actions.addPage(setScroll, loadMore, loadEnd)),
         unsetError: () => dispatch(actions.unsetError()),
-        searchInput: (key) => dispatch(actions.getSearchData(key))
+        searchInput: (key) => dispatch(actions.getSearchData(key)),
+        getSortedData: (id, order) => dispatch(actions.getSortedData(id, order))
     }
 }
 

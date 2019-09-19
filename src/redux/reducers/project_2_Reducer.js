@@ -107,6 +107,14 @@ const armyTableReducer = (state = initState, action) => {
                 err: null,
             }
 
+        case "USER_FETCH_SORTED_DATA":
+            return {
+                ...state,
+                data: action.data,
+                isLoad: false,
+                err: null
+            }
+
         default:
             return state;
     }
