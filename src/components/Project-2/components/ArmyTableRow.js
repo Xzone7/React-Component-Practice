@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Delete from '@material-ui/icons/DeleteForeverRounded';
 import Create from '@material-ui/icons/Create';
 
-const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete }) => {
+const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete, handleClickSuperiorView, handleClickSubordinateView }) => {
     return (
         data.map((ele, index) => {
             return (
@@ -16,8 +16,8 @@ const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete }) => {
                     <td>{ele.start_date}</td>
                     <td>{ele.phone}</td>
                     <td>{ele.email}</td>
-                    <td>{ele.superior.name}</td>
-                    <td>{ele.num_of_ds.length > 0 ? ele.num_of_ds.length : null}</td>
+                    <td><span id="chenxu-2019" onClick={() => handleClickSuperiorView(ele.superior._id)}>{ele.superior.name}</span></td>
+                    <td><span id="chenxu-2019" onClick={() => handleClickSubordinateView(ele._id)}>{ele.num_of_ds.length > 0 ? ele.num_of_ds.length : null}</span></td>
                     <td>
                         <Button variant="outlined"
                             color="primary"

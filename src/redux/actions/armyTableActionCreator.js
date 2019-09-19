@@ -111,6 +111,52 @@ export const setSortedData = data => {
     )
 }
 
+export const setSuperiorView = data => {
+    return (
+        {
+            type: "USER_FETCH_SUPERIOR_VIEW",
+            data
+        }
+    );
+}
+
+export const setSubordinateView = data => {
+    return (
+        {
+            type: "USER_FETCH_SUBORDINATE_VIEW",
+            data
+        }
+    );
+}
+
+export const getSuperiorView = (id) => {
+    console.log("Start to fetch superior data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.get(`http://localhost:1024/api/superiorview/${id}`)
+            .then(res => {
+                dispatch(setSuperiorView(res.data));
+            })
+            .catch(err => {
+                dispatch(setError(err));
+            });
+    }
+}
+
+export const getSubordinateView = (id) => {
+    console.log("Start to fetch subordinate data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.get(`http://localhost:1024/api/subordinateview/${id}`)
+            .then(res => {
+                dispatch(setSubordinateView(res.data));
+            })
+            .catch(err => {
+                dispatch(setError(err));
+            });
+    }
+}
+
 export const getSearchData = (key) => {
     console.log("Start to fetch search data...Loading flag dispatched");
     return (dispatch, getState) => {

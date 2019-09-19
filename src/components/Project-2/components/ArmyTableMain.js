@@ -146,6 +146,14 @@ class ArmyTableMain extends React.Component {
         }
     }
 
+    handleClickSuperiorView = (id) => {
+        this.props.getSuperiorView(id);
+    }
+
+    handleClickSubordinateView = (id) => {
+        this.props.getSubordinateView(id);
+    }
+
     handleClickReset = () => {
 
     }
@@ -239,7 +247,13 @@ class ArmyTableMain extends React.Component {
                             </tr>
                         </thead>
                         <tbody className="project-2-table-body" ref="tbodyRef">
-                            {!isLoad && <ArmyTableRow data={input.length > 0 ? searchData : data} handleClickDelete={this.handleClickDelete} handleClickEdit={this.handleClickEdit} />}
+                            {!isLoad &&
+                                <ArmyTableRow
+                                    data={input.length > 0 ? searchData : data}
+                                    handleClickDelete={this.handleClickDelete}
+                                    handleClickEdit={this.handleClickEdit}
+                                    handleClickSuperiorView={this.handleClickSuperiorView}
+                                    handleClickSubordinateView={this.handleClickSubordinateView} />}
                         </tbody>
                     </table>
                 </div>
@@ -295,7 +309,9 @@ const mapDispatchToProps = dispatch => {
         loadMore: (setScroll, loadMore, loadEnd) => dispatch(actions.addPage(setScroll, loadMore, loadEnd)),
         unsetError: () => dispatch(actions.unsetError()),
         searchInput: (key) => dispatch(actions.getSearchData(key)),
-        getSortedData: (id, order) => dispatch(actions.getSortedData(id, order))
+        getSortedData: (id, order) => dispatch(actions.getSortedData(id, order)),
+        getSuperiorView: (id) => dispatch(actions.getSuperiorView(id)),
+        getSubordinateView: (id) => dispatch(actions.getSubordinateView(id))
     }
 }
 

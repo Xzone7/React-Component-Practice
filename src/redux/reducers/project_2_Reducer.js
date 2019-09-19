@@ -115,6 +115,22 @@ const armyTableReducer = (state = initState, action) => {
                 err: null
             }
 
+        case "USER_FETCH_SUPERIOR_VIEW":
+            return {
+                ...state,
+                data: [action.data],
+                isLoad: false,
+                err: null
+            }
+
+        case "USER_FETCH_SUBORDINATE_VIEW":
+            return {
+                ...state,
+                data: action.data, // ?
+                isLoad: false,
+                err: null
+            }
+
         default:
             return state;
     }
