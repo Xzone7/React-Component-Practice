@@ -157,8 +157,9 @@ class ArmyTableMain extends React.Component {
     handleClickReset = () => {
         // reset redux data
         this.props.resetData();
-        
+
         // initial local control states
+        this.refs.tbodyRef.addEventListener("scroll", this.handleScroll);
         this.setState({
             input: "",
             openDeleteModal: [false, null],
