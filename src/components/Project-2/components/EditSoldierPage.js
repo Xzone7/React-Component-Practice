@@ -55,7 +55,7 @@ class EditSoldierPage extends React.Component {
                         start_date: new Date(ele.start_date),
                         phone: ele.phone,
                         email: ele.email,
-                        superior: `${ele.superior.name},${ele.superior._id}`,
+                        superior: `${ele.superior.name ? ele.superior.name : "none"},${ele.superior._id ? ele.superior._id : "none"}`,
                         avatar: `data:image/jpeg;base64,${atob(base64ArrayBuffer(ele.avatar_img.data))}`,
                     });
                 }
@@ -206,6 +206,7 @@ class EditSoldierPage extends React.Component {
     }
 
     handleClickCanclePage = () => {
+        this.props.resetPage();
         this.props.history.push('/project-2');
     }
 
@@ -239,7 +240,7 @@ class EditSoldierPage extends React.Component {
                 superior: { name: superiorName, _id: superiorId }
             };
 
-            this.props.postNewSolider(editSoldierData, this.props.history);
+            this.props.updateSoldier(this.props.match.params.userId, editSoldierData, this.props.history);
         }
     }
 
@@ -554,7 +555,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getNoCircleSuperiorData: (id) => dispatch(actions.getNoCircleSuperiorData(id))
+        getNoCircleSuperiorData: (id) => dispatch(actions.getNoCircleSuperiorData(id)),
+        updateSoldier: (id, data, event) => dispatch(actions.putData(id, data, event)),
+        resetPage: () => dispatch(actions.resetPage())
     };
 }
 

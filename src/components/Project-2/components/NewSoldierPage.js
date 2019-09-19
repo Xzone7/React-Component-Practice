@@ -191,6 +191,7 @@ class NewSoldierPage extends React.Component {
     }
 
     handleClickCanclePage = () => {
+        this.props.resetPage();
         this.props.history.push('/project-2');
     }
 
@@ -221,7 +222,7 @@ class NewSoldierPage extends React.Component {
                 start_date: this.state.start_date.toLocaleDateString(),
                 phone: this.state.phone,
                 email: this.state.email,
-                superior: { name: superiorName, _id: superiorId}
+                superior: { name: superiorName, _id: superiorId }
             };
 
             this.props.postNewSolider(newSoldierData, this.props.history);
@@ -485,7 +486,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getSuperiorData: () => dispatch(actions.getSuperiorData()),
-        postNewSolider: (data, event) => dispatch(actions.postData(data, event))
+        postNewSolider: (data, event) => dispatch(actions.postData(data, event)),
+        resetPage: () => dispatch(actions.resetPage())
     };
 }
 

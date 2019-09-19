@@ -8,7 +8,7 @@ const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete }) => {
     return (
         data.map((ele, index) => {
             return (
-                <tr key={index}>
+                <tr key={index} id={index === data.length - 1 ? "last-row" : "internal-row"}>
                     <td><img src={`data:image/jpeg;base64,${atob(base64ArrayBuffer(ele.avatar_img.data))}`} alt="logo" className="row-thumbnail-img" /></td>
                     <td>{ele.name}</td>
                     <td>{ele.sex}</td>

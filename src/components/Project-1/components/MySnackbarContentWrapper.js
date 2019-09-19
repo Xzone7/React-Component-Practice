@@ -4,17 +4,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SnackbarContent } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import { green } from '@material-ui/core/colors';
 
 
 const variantIcon = {
     success: CheckCircleIcon,
+    info: InfoIcon
 };
 
 const useStyles1 = makeStyles(theme => ({
     success: {
         backgroundColor: green[600],
+    },
+    info: {
+        backgroundColor: theme.palette.primary.main,
     },
     icon: {
         fontSize: 20,

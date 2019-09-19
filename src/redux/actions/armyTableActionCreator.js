@@ -44,17 +44,124 @@ export const setAllowEditSuperior = data => {
     );
 }
 
-export const getData = () => {
+export const incrementPage = () => {
+    return (
+        {
+            type: "USER_ADD_PAGE"
+        }
+    );
+}
+
+export const decrementPage = () => {
+    return (
+        {
+            type: "USER_REMOVE_PAGE"
+        }
+    );
+}
+
+export const setPaginationLoad = () => {
+    return (
+        {
+            type: "USER_PAGINATION_START"
+        }
+    );
+}
+
+export const resetPage = () => {
+    return (
+        {
+            type: "USER_PAGE_RESET"
+        }
+    );
+}
+
+export const setFirstPageData = data => {
+    return (
+        {
+            type: "USER_SET_FIRST_PAGE_DATA",
+            data
+        }
+    );
+}
+
+export const unsetError = () => {
+    return (
+        {
+            type: "USER_UNSET_ERROR"
+        }
+    );
+}
+
+export const setSearchData = data => {
+    return (
+        {
+            type: "USER_FETCH_SEARCH_DATA",
+            data
+        }
+    );
+}
+
+export const getSearchData = (key) => {
+    console.log("Start to fetch search data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad())
+        axios.get(`http://localhost:1024/api/armyusers?search=true&&key=${key}`)
+            .then(res => {
+                dispatch(setSearchData(res.data));
+            })
+            .catch(err => {
+                dispatch(setError(err));
+            })
+    }
+}
+
+export const getFirstPageData = () => {
     console.log("Start to fetch data...Loading flag dispatched");
     return (dispatch, getState) => {
-        dispatch(setLoad());
-        axios.get("http://localhost:1024/api/armyusers")
+        dispatch(setLoad())
+        const currentRowPerPage = getState().armyTable.rowPerPage;
+        axios.get(`http://localhost:1024/api/armyusers?page=0&&rpp=${currentRowPerPage}`)
             .then(res => {
-                dispatch(setUserList(res.data));
+                dispatch(setFirstPageData(res.data));
             })
             .catch(err => {
                 dispatch(setError(err));
             });
+    }
+}
+
+export const getData = (setScroll, setPaginationLoad, loadMore, loadEnd) => {
+    console.log("Start to fetch data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        setPaginationLoad ? dispatch(setPaginationLoad()) : dispatch(setLoad());
+        const currentPage = getState().armyTable.page;
+        const currentRowPerPage = getState().armyTable.rowPerPage;
+        axios.get(`http://localhost:1024/api/armyusers?page=${currentPage}&&rpp=${currentRowPerPage}`)
+            .then(res => {
+                /* check res.data */
+                // if data is [] ---> no more new data 
+                //               ---> 1. set flag on  2. page - 1
+
+                // 1
+                res.data.length === 0 ? loadEnd() : loadMore();
+                // 2
+                res.data.length === 0 && dispatch(decrementPage());
+
+                dispatch(setUserList(res.data));
+                setScroll ? setScroll() : console.log("no set scroll function");
+            })
+            .catch(err => {
+                dispatch(setError(err));
+            });
+    }
+}
+
+export const addPage = (setScroll, loadMore, loadEnd) => {
+    console.log("Adding current page to page + 1...");
+    return (dispatch, getState) => {
+        dispatch(incrementPage());
+        dispatch(getData(setScroll, setPaginationLoad, loadMore, loadEnd));
     }
 }
 
@@ -88,6 +195,23 @@ export const getNoCircleSuperiorData = id => {
     }
 }
 
+// PUT update soldier
+export const putData = (id, data, event) => {
+    console.log("Start to put data...Loading flag dispatched");
+    return (dispatch, getState) => {
+        dispatch(setLoad());
+        axios.put(`http://localhost:1024/api/armyusers/${id}`, data)
+            .then(res => {
+                dispatch(resetPage());
+                event.push('/project-2');
+            })
+            .catch(err => {
+                dispatch(setError());
+                event.push('/project-2');
+            })
+    }
+}
+
 // POST new soldier
 export const postData = (data, event) => {
     console.log("Start to post data...Loading flag dispatched");
@@ -95,11 +219,12 @@ export const postData = (data, event) => {
         dispatch(setLoad());
         axios.post("http://localhost:1024/api/armyusers", data)
             .then(res => {
+                dispatch(resetPage());
                 event.push('/project-2');
             })
             .catch(err => {
-                event.push('/project-2');
                 dispatch(setError());
+                event.push('/project-2');
             })
     }
 }
@@ -110,7 +235,8 @@ export const deleteData = (data) => {
         dispatch(setLoad());
         axios.delete("http://localhost:1024/api/armyusers", { data: data })
             .then(res => {
-                dispatch(getData());
+                dispatch(resetPage());
+                dispatch(getFirstPageData());
             })
             .catch(err => {
                 dispatch(setError());
