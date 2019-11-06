@@ -197,9 +197,9 @@ class NewSoldierPage extends React.Component {
 
     handleSubmit = () => {
         const formCorrectFlag = (
-            this.state.name.length > 0 && !this.state.nameErrorFlag && 
-            this.state.rank.length > 0 && !this.state.rankErrorFlag && 
-            this.state.sex.length > 0 && 
+            this.state.name.length > 0 && !this.state.nameErrorFlag &&
+            this.state.rank.length > 0 && !this.state.rankErrorFlag &&
+            this.state.sex.length > 0 &&
             this.state.start_date.toString() !== "Invalid Date" && !this.state.dateErrorFlag &&
             !this.state.phoneErrorFlag &&
             this.state.email.length > 0 && !this.state.emailErrorFlag);
@@ -358,17 +358,19 @@ class NewSoldierPage extends React.Component {
                                 </div>
                                 <div>
                                     {!openUpload && <UploadButton onClose={this.handleClickUploadandCancel} />}
-                                    {openUpload && <SaveAndCancleButton onCancle={this.handleClickUploadandCancel} 
-                                                                        onSave={this.handleRealImgUpload}
-                                                                        preview_avatar={this.state.preview_avatar} />}
+                                    {openUpload && <SaveAndCancleButton onCancle={this.handleClickUploadandCancel}
+                                        onSave={this.handleRealImgUpload}
+                                        preview_avatar={this.state.preview_avatar} />}
                                 </div>
                                 {openUpload &&
-                                    <DropzoneArea
-                                        open={openUpload}
-                                        onChange={this.handlePreImgUpload}
-                                        filesLimit={1}
-                                        acceptedFiles={['image/*']}
-                                        maxFileSize={10000000} />
+                                    <div id="notmy-zone">
+                                        <DropzoneArea
+                                            open={openUpload}
+                                            onChange={this.handlePreImgUpload}
+                                            filesLimit={1}
+                                            acceptedFiles={['image/*']}
+                                            maxFileSize={10000000} />
+                                    </div>
                                 }
                             </div>
                         </form>

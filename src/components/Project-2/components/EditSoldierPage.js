@@ -380,12 +380,14 @@ class EditSoldierPage extends React.Component {
                                         preview_avatar={this.state.preview_avatar} />}
                                 </div>
                                 {openUpload &&
-                                    <DropzoneArea
-                                        open={openUpload}
-                                        onChange={this.handlePreImgUpload}
-                                        filesLimit={1}
-                                        acceptedFiles={['image/*']}
-                                        maxFileSize={10000000} />
+                                    <div id="notmy-zone">
+                                        <DropzoneArea
+                                            open={openUpload}
+                                            onChange={this.handlePreImgUpload}
+                                            filesLimit={1}
+                                            acceptedFiles={['image/*']}
+                                            maxFileSize={10000000} />
+                                    </div>
                                 }
                             </div>
                         </form>

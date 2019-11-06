@@ -14,8 +14,8 @@ const ArmyTableRow = ({ data, handleClickEdit, handleClickDelete, handleClickSup
                     <td>{ele.sex}</td>
                     <td>{ele.rank}</td>
                     <td>{ele.start_date}</td>
-                    <td>{ele.phone}</td>
-                    <td>{ele.email}</td>
+                    <td><a href={`facetime:${ele.phone}`}>{ele.phone}</a></td>
+                    <td><a href={`mailto:${ele.email}`} target="_blank">{ele.email}</a></td>
                     <td><span id="chenxu-2019" onClick={() => handleClickSuperiorView(ele.superior._id)}>{ele.superior.name}</span></td>
                     <td><span id="chenxu-2019" onClick={() => handleClickSubordinateView(ele._id)}>{ele.num_of_ds.length > 0 ? ele.num_of_ds.length : null}</span></td>
                     <td>
